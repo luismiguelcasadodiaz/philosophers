@@ -1,1 +1,0 @@
-t_moni_init.o: t_moni_init.c philo.h

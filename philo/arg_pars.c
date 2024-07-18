@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 08:56:34 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/16 19:34:22 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:24:25 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_moni	*arg_ok(int argc, char **argv)
 		if (all_ok)
 			all_ok = all_ok && (arg_range_int(argv[i], &num));
 		if (all_ok)
+			all_ok = all_ok && (0 < num);
+		if (all_ok )
 			t_moni_set(r, i, num);
 		i++;
 	}
