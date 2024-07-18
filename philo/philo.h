@@ -30,4 +30,5 @@ void	t_moni_free(t_moni *r);
 void	t_moni_set(t_moni *r, int i, int num);
 int	ft_isdigit(int c);
 
+int	arg_digits(char	*arg);
 #endif

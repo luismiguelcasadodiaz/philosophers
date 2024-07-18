@@ -1,0 +1,1 @@
+arg_digi.o: arg_digi.c philo.h

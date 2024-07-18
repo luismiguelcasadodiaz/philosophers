@@ -1,0 +1,1 @@
+arg_rang.o: arg_rang.c philo.h
