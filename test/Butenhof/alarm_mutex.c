@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 13:30:42 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/23 12:13:37 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:21:06 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	*alarm_thread(void *arg)
 static void	my_mutex_lock(pthread_mutex_t	*alarm_mutex)
 {
 	int	status;
+
 	status = pthread_mutex_lock (alarm_mutex);
 	if (status != 0)
 		err_abort (status, "Lock mutex");
@@ -124,14 +125,16 @@ static void	my_mutex_lock(pthread_mutex_t	*alarm_mutex)
 static void	my_mutex_unlock(pthread_mutex_t	*alarm_mutex)
 {
 	int	status;
+
 	status = pthread_mutex_unlock (alarm_mutex);
 	if (status != 0)
 		err_abort (status, "Lock mutex");
 }
 
-static void my_thread_create(pthread_t *thread, void (*f)(void *))
+static void	my_thread_create(pthread_t *thread, void (*f)(void *))
 {
 	int			status;
+
 	status = pthread_create(thread, NULL, f, NULL);
 	if (status != 0)
 		err_abort (status, "Create alarm thread");
