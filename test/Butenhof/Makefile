@@ -73,6 +73,8 @@ alarm_thread:
 	${CC} ${CFLAGS} ${RTFLAGS} ${LDFLAGS} -o $@ alarm_thread.c
 backoff:
 	${CC} ${CFLAGS} ${RTFLAGS} ${LDFLAGS} -o $@ backoff.c
+mutex_static:
+	${CC} ${CFLAGS} ${RTFLAGS} ${LDFLAGS} -o $@ mutex_static.c
 sched_attr:
 	${CC} ${CFLAGS} ${RTFLAGS} ${LDFLAGS} -o $@ sched_attr.c
 sched_thread:
