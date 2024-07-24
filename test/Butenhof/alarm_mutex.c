@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 13:30:42 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/23 14:21:06 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:11:52 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ typedef struct alarm_tag
 	int					seconds;
 	time_t				time;
 	char				message[64];
+	void				*the_list;
 }	t_alarm;
 
 pthread_mutex_t	alarm_mutex = PTHREAD_MUTEX_INITIALIZER;
-t_alarm			*alarm_list = NULL;
 
 /*
  * The alarm thread's start routine.
@@ -131,7 +131,7 @@ static void	my_mutex_unlock(pthread_mutex_t	*alarm_mutex)
 		err_abort (status, "Lock mutex");
 }
 
-static void	my_thread_create(pthread_t *thread, void (*f)(void *))
+static void	my_thread_create(pthread_t *thread, (void *) (*f)(void *))
 {
 	int			status;
 
@@ -145,7 +145,7 @@ static void	my_thread_create(pthread_t *thread, void (*f)(void *))
  * separated from the seconds by whitespace.
  */
 
-void alarm_add_to_list()
+void alarm_add_to_list(t_alarm **alarm_list, t_alarm *alarm)
 {
 	t_alarm		**last;
 	t_alarm		*next;
@@ -193,7 +193,9 @@ int	main(void)
 	char		line[128];
 	t_alarm		*alarm;
 	pthread_t	thread;
+	t_alarm		*alarm_list;
 
+	alarm_list = NULL;
 	my_thread_create(&thread, alarm_thread);
 	while (1)
 	{
@@ -211,6 +213,6 @@ int	main(void)
 			free (alarm);
 		}
 		else
-			alarm_add_to_list();
+			alarm_add_to_list(&alarm_list, alarm);
 	}
 }
