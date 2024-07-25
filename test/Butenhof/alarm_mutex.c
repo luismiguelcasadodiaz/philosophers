@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 13:30:42 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/24 10:11:52 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:36:04 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ void	*alarm_thread(void *arg)
 		status = pthread_mutex_lock (&alarm_mutex);
 		if (status != 0)
 			err_abort (status, "Lock mutex");
-		alarm = alarm_list;
+		alarm = ((t_alarm *)arg)->link;
 		if (alarm == NULL)
 			sleep_time = 1;
 		else
 		{
-			alarm_list = alarm->link;
+			((t_alarm *)arg)->link = alarm->link;
 			now = time (NULL);
 			if (alarm->time <= now)
 				sleep_time = 0;
@@ -131,11 +131,11 @@ static void	my_mutex_unlock(pthread_mutex_t	*alarm_mutex)
 		err_abort (status, "Lock mutex");
 }
 
-static void	my_thread_create(pthread_t *thread, (void *) (*f)(void *))
+static void	my_thread_create(pthread_t *t, void *(*f)(void *), t_alarm *arg)
 {
 	int			status;
 
-	status = pthread_create(thread, NULL, f, NULL);
+	status = pthread_create(t, NULL, (*f), arg);
 	if (status != 0)
 		err_abort (status, "Create alarm thread");
 }
@@ -145,18 +145,24 @@ static void	my_thread_create(pthread_t *thread, (void *) (*f)(void *))
  * separated from the seconds by whitespace.
  */
 
-void alarm_add_to_list(t_alarm **alarm_list, t_alarm *alarm)
+/*
+ * Insert the new alarm into the list of alarms,
+ * sorted by expiration time.
+ */
+/*
+ * If we reached the end of the list, insert the new
+ * alarm there. ("next" is NULL, and "last" points
+ * to the link field of the last item, or to the
+ * list header).
+ */
+void	alarm_add_to_list(t_alarm *alarm_list, t_alarm *alarm)
 {
 	t_alarm		**last;
 	t_alarm		*next;
 
 	my_mutex_lock(&alarm_mutex);
 	alarm->time = time (NULL) + alarm->seconds;
-/*
- * Insert the new alarm into the list of alarms,
- * sorted by expiration time.
- */
-	last = &alarm_list;
+	last = &alarm_list->link;
 	next = *last;
 	while (next != NULL)
 	{
@@ -169,19 +175,13 @@ void alarm_add_to_list(t_alarm **alarm_list, t_alarm *alarm)
 		last = &next->link;
 		next = next->link;
 	}
-/*
- * If we reached the end of the list, insert the new
- * alarm there. ("next" is NULL, and "last" points
- * to the link field of the last item, or to the
- * list header).
- */
 	if (next == NULL)
 	{
 		*last = alarm;
 		alarm->link = NULL;
 	}
 	printf ("[list: ");
-	for (next = alarm_list; next != NULL; next = next->link)
+	for (next = alarm_list->link; next != NULL; next = next->link)
 		printf ("%ld(%ld)[\"%s\"] ", next->time,
 			next->time - time (NULL), next->message);
 	printf ("]\n");
@@ -193,10 +193,11 @@ int	main(void)
 	char		line[128];
 	t_alarm		*alarm;
 	pthread_t	thread;
-	t_alarm		*alarm_list;
+	t_alarm		*thread_arg;
 
-	alarm_list = NULL;
-	my_thread_create(&thread, alarm_thread);
+	thread_arg = (t_alarm *)malloc (sizeof (t_alarm));
+	thread_arg->link = NULL;
+	my_thread_create(&thread, alarm_thread, thread_arg);
 	while (1)
 	{
 		printf ("alarm> ");
@@ -213,6 +214,6 @@ int	main(void)
 			free (alarm);
 		}
 		else
-			alarm_add_to_list(&alarm_list, alarm);
+			alarm_add_to_list(thread_arg, alarm);
 	}
 }

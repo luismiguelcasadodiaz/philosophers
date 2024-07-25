@@ -12,6 +12,10 @@ SRCS		= arg_digi.c \
 		  ft_strlen.c \
 		  ft_atol.c \
 		  t_moni_init.c \
+		  err_abort.c \
+		  my_mutex_lock.c \
+		  my_mutex_unlock.c \
+		  forks_create.c \
 		  philo.c
 		  #arg_seen.c \
 

@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/16 19:35:59 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:30:01 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_moni	*t_moni_init(void)
 	r->tte = 0;
 	r->tts = 0;
 	r->num_lunchs = 0;
+	r->fork_r = 0;
+	r->fork_l = 0;
 	return (r);
 }
 
@@ -34,6 +36,8 @@ void	t_moni_free(t_moni *r)
 	r->tte = 0;
 	r->tts = 0;
 	r->num_lunchs = 0;
+	r->fork_r = 0;
+	r->fork_l = 0;
 	free(r);
 }
 

@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   forks_create.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 16:09:07 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/25 12:52:47 by luicasad         ###   ########.fr       */
+/*   Created: 2024/07/25 12:39:10 by luicasad          #+#    #+#             */
+/*   Updated: 2024/07/25 13:27:25 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "philo.h"
 
-int	main(int argc, char	**argv)
+pthread_mutex_t	**forks_create(int num)
 {
-	t_moni			*moni;
+	int				i;
 	pthread_mutex_t	**forks;
 
-	if ((argc < 5) || (argc > 6))
+	forks = (pthread_mutex_t **)malloc((num + 1) * sizeof(pthread_mutex_t *));
+	if (forks == NULL)
+		exit(1);
+	i = 0;
+	while (i >= 0)
 	{
-		printf("Invalid argument number.\n");
-		return (1);
+		forks[i] = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+		if (forks[i] == NULL)
+		{
+			while (--i >= 0)
+				free(forks[i]);
+			free(forks);
+			exit(1);
+		}
+		pthread_mutex_init(forks[i], PTHREAD_MUTEX_INITIALIZER);
 	}
-	moni = arg_ok(argc, argv);
-	if (!moni)
-	{
-		printf("Arguments are not positive values for an integer type.\n");
-		return (1);
-	}
-	printf("Creating  %d philosophers\n.", moni->num_phi);
-	forks = forks_create(moni->num_phi);
-	philo_create(moni);
-	return (0);
+	return (forks);
 }
