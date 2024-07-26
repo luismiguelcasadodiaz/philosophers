@@ -19,8 +19,12 @@ set print pretty on
 set follow-fork-mode child
 # To keep father & child under control with "inferior" command
 set detach-on-fork off
+#set scheduler-locking on
 # Set Breakpoint at main function
 break main
 # Set other breakpoint
 break philo.c:29
+break philo_creation.c:11
+break philo_thread.c:37
 # set alias
+run 5 300 200 200 3

@@ -1,5 +1,5 @@
 NAME		= philo
-CC		= gcc
+CC			= gcc
 WFLAG		= -Wall -Werror -Wextra
 DFLAG		= -g
 CFLAG		= $(WFLAG) $(DFLAG) -c
@@ -11,11 +11,20 @@ SRCS		= arg_digi.c \
 		  ft_isdigit.c \
 		  ft_strlen.c \
 		  ft_atol.c \
+		  ft_itoa.c \
+		  ft_ltoa.c \
+		  my_now_ms.c \
 		  t_moni_init.c \
 		  err_abort.c \
 		  my_mutex_lock.c \
 		  my_mutex_unlock.c \
+		  my_thread_create.c \
+		  my_thread_detach.c \
+		  my_thread_join.c \
 		  forks_create.c \
+		  philo_creation.c \
+		  philo_thread.c \
+		  philo_msg.c \
 		  philo.c
 		  #arg_seen.c \
 

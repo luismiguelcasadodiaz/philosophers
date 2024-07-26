@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:09:07 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/25 12:52:47 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:57:06 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -14,7 +14,8 @@
 int	main(int argc, char	**argv)
 {
 	t_moni			*moni;
-	pthread_mutex_t	**forks;
+	pthread_t		**threads_ids;
+	int				i;
 
 	if ((argc < 5) || (argc > 6))
 	{
@@ -28,7 +29,9 @@ int	main(int argc, char	**argv)
 		return (1);
 	}
 	printf("Creating  %d philosophers\n.", moni->num_phi);
-	forks = forks_create(moni->num_phi);
-	philo_create(moni);
+	threads_ids = philo_create(moni);
+	i = 1;
+	while (i <= moni->num_phi)
+		my_th_join(threads_ids[i++]);
 	return (0);
 }
