@@ -37,6 +37,9 @@ let g:syntastic_auto_loc_list = 1
 " Skip check when closing
 let g:syntastic_check_on_wq = 0
 
+syntax on
+filetype on
+
 set number
 set relativenumber
 set tabstop=4
@@ -51,4 +54,5 @@ set hlsearch
 set wildmenu
 set wildmode=list:longest
 set colorcolumn=80
+highlight colorcolumn ctermbg=102
 set tabpagemax=20

@@ -3,11 +3,11 @@ CC			= gcc
 WFLAG		= -Wall -Werror -Wextra
 DFLAG		= -g -fsanitize=thread
 DFLAG		= -g -fsanitize=address
-DFLAG		= -g
+#DFLAG		= -g
 CFLAG		= $(WFLAG) $(DFLAG) -c
 LFLAG		= -fsanitize=thread -lpthread
 LFLAG		= -fsanitize=address 
-LFLAG		= 
+#LFLAG		= 
 HEADER		= philo.h
 SRCS		= arg_digi.c \
 		  arg_pars.c \
@@ -27,6 +27,8 @@ SRCS		= arg_digi.c \
 		  my_thread_join.c \
 		  forks_create.c \
 		  forks_free.c \
+		  threads_create.c \
+		  threads_free.c \
 		  philo_creation.c \
 		  philo_thread.c \
 		  philo_msg.c \
@@ -40,7 +42,6 @@ $(info source files $(SRCS))
 $(info object files $(OBJS))
 
 all: $(NAME)
-	bash -c "sudo sysctl vm.mmap_rnd_bits=28"
 -include $(DEPE)
 
 %.d:%.c

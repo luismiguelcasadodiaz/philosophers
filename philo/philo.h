@@ -19,12 +19,15 @@
 
 /* ************************************************************************** */
 /* t_moni_set() helper funcion to test a CLI argument in the right field      */
+/* forks	   Holds a pointer to all available mutexes                       */
+/* threads_ids Holds a pointer to all available threads identificators        */
 /* num_phi     Holds CLI number of philosophers to simulate                   */
 /* ttd         Holds CLI time to die since the beginning of the last meal     */
 /*             or the beginning of the simulation                             */
 /* tte         Holds CLI time to eat                                          */
 /* tts         Holds CLI time to sleep                                        */
 /* num_lunchs  Holds CLI optional number of times must eat.                   */
+/* sim_ini_ms  Holds timestamp in ms for simulation initiation                */
 /* mynum       Holds the number of this philosopher                           */
 /* fork_l      Holds fork number to use with left hand                        */
 /* fork_r      Holds fork number to use with right hand                       */
@@ -33,13 +36,15 @@
 typedef struct s_p_moni
 {
 	pthread_mutex_t	**forks;
+	pthread_t		**thread_ids;
 	int				num_phi;
 	int				ttd;
 	int				tte;
 	int				tts;
 	int				num_lunchs;
+	long			sim_init_ms;
 	int				mynum;
-	pthread_t		thread_id;
+	pthread_t		mythread_id;
 	int				fork_l;
 	int				fork_r;
 
@@ -70,6 +75,7 @@ pthread_mutex_t	**forks_create(int num);
 void			forks_free(pthread_mutex_t **forks, int num);
 pthread_t		**philo_create(t_moni *moni);
 void			*philo_thread(void *arg);
+pthread_t		**threads_create(int num);
 void			free_threads(pthread_t	**threads_ids, int num);
 void			philo_msg(int i, char *msg, int msg_len, pthread_mutex_t *mtx);
 #endif
