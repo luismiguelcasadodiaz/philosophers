@@ -13,7 +13,7 @@ Here are the things you need to know if you want to succeed this assignment:
 • Philosophers don’t know if another philosopher is about to die.<br>
 • No need to say that philosophers should avoid dying!<br>
 
-## GLobal Rules
+## Global Rules
 <ul>  Global variables are forbidden! </ul><br>
 <ul>• Your(s) program(s) should take the following arguments:
 number_of_philosophers time_to_die time_to_eat time_to_sleep
@@ -84,4 +84,23 @@ There are 18 allowed functions for Pipex. All of them belong to the set of 51 fu
 |readline.h|pthread_sem_unlink||
 
 
-# 
+# Data structure
+```c
+typedef struct s_p_moni
+{
+	pthread_mutex_t	**forks;
+	pthread_t		**thread_ids;
+	int				num_phi;
+	int				ttd;
+	int				tte;
+	int				tts;
+	int				num_lunchs;
+	long			sim_init_ms;
+	int				mynum;
+	pthread_t		mythread_id;
+	int				fork_l;
+	int				fork_r;
+
+}	t_moni;
+
+
