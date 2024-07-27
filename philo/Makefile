@@ -3,11 +3,11 @@ CC			= gcc
 WFLAG		= -Wall -Werror -Wextra
 DFLAG		= -g -fsanitize=thread
 DFLAG		= -g -fsanitize=address
-DFLAG		= -g
+#DFLAG		= -g
 CFLAG		= $(WFLAG) $(DFLAG) -c
 LFLAG		= -fsanitize=thread -lpthread
 LFLAG		= -fsanitize=address 
-LFLAG		= 
+#LFLAG		= 
 HEADER		= philo.h
 SRCS		= arg_digi.c \
 		  arg_pars.c \

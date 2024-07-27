@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:00:46 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/27 12:41:12 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:09:32 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	philo_eat(t_moni *a, long *s_eat_ms)
 	}
 }
 
-static void	philo_actions(t_moni *a, int *morelunch)
+static void	philo_actions(t_moni *a, int *morelunch, int *died)
 {
 	long			s_eat_ms;
 
@@ -68,6 +68,7 @@ static void	philo_actions(t_moni *a, int *morelunch)
 	{
 		philo_msg(a->mynum, " died\n", 7, a->forks[0]);
 		*morelunch = 0;
+		*died = 1;
 	}
 }
 
@@ -75,15 +76,20 @@ void	*philo_thread(void *a)
 {
 	int				lunchs;
 	int				morelunch;
+	int				died;
 
+	died = 0;
 	lunchs = 0;
 	morelunch = 1;
-	while (morelunch)
+	while (morelunch && !died)
 	{
-		philo_actions((t_moni *)a, &morelunch);
+		philo_actions((t_moni *)a, &morelunch, &died);
 		lunchs++;
 		morelunch = morelunch && !(((t_moni *)a)->num_lunchs == lunchs);
 	}
 	t_moni_free((t_moni *)a);
-	return (NULL);
+	if (died) 
+		return ((void *)3);
+	else
+		return ((void *)0);
 }
