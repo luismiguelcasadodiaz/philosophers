@@ -89,18 +89,41 @@ There are 18 allowed functions for Pipex. All of them belong to the set of 51 fu
 typedef struct s_p_moni
 {
 	pthread_mutex_t	**forks;
-	pthread_t		**thread_ids;
-	int				num_phi;
-	int				ttd;
-	int				tte;
-	int				tts;
-	int				num_lunchs;
-	long			sim_init_ms;
-	int				mynum;
-	pthread_t		mythread_id;
-	int				fork_l;
-	int				fork_r;
+	pthread_t	**thread_ids;
+	int		num_phi;
+	int		ttd;
+	int		tte;
+	int		tts;
+	int		num_lunchs;
+	long		*sim_init_ms;
+	int		*casualty;
+	int		mynum;
+	pthread_t	mythread_id;
+	int		fork_l;
+	int		fork_r;
 
 }	t_moni;
 
+/* ************************************************************************** */
+/* t_moni_set() helper funcion to test a CLI argument in the right field      */
+/* forks       Holds a pointer to all available mutexes                       */
+/* threads_ids Holds a pointer to all available threads identificators        */
+/* num_phi     Holds CLI number of philosophers to simulate                   */
+/* ttd         Holds CLI time to die since the beginning of the last meal     */
+/*             or the beginning of the simulation                             */
+/* tte         Holds CLI time to eat                                          */
+/* tts         Holds CLI time to sleep                                        */
+/* num_lunchs  Holds CLI optional number of times must eat.                   */
+/* sim_ini_ms  Holds a pointer to a time stamp for simulation initiation      */
+/* casualty    Holds a pointer to a flag reporting if any philo died          */
+/* mynum       Holds the number of this philosopher                           */
+/* fork_l      Holds fork number to use with left hand                        */
+/* fork_r      Holds fork number to use with right hand                       */
+/* ************************************************************************** */
 
+```
+Philosophers get numbers from 1 to num_phi that is stored in mynum. Each Philosopher has a fork for the left hand. The left hand's fork has same number than philosopher number has. The right fork is mynum + 1 for all philosophers but philosopher num_phi, whose right hand fork is the number one.
+
+As forks is an arrray of mutexes, fork[0] is reserved to sincronize screen output. fork[1]..fork[num_phi] are mutexes for forks. fork[num_phi + 1] will sincronize the start. Fork[num_phi + 2] will protect write/read of casualty variable.
+
+memory allocation for Forks and thread_ids is done once arg_ok validates command line arguments.
