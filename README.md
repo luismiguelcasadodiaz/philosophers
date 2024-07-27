@@ -124,15 +124,17 @@ typedef struct s_p_moni
 ```
 Philosophers get numbers from 1 to num_phi that is stored in mynum. Each Philosopher has a fork for the left hand. The left hand's fork has same number than philosopher number has. The right fork is mynum + 1 for all philosophers but philosopher num_phi, whose right hand fork is the number one.
 
-![image](https://github.com/user-attachments/assets/96ed7782-6fac-4dc5-aede-c5e610223091)
-
+![image](https://github.com/user-attachments/assets/a5e028c6-1d6a-40bb-8437-4de2c58647ae)
 
 As forks is an arrray of mutexes, fork[0] is reserved to sincronize screen output. fork[1]..fork[num_phi] are mutexes for forks. fork[num_phi + 1] will sincronize the start. Fork[num_phi + 2] will protect write/read of casualty variable.
 
 memory allocation for Forks and thread_ids is done once arg_ok validates command line arguments.
 
 Worths to pay attention to the special case of two philosophers:
-![image](https://github.com/user-attachments/assets/2c0930de-ce27-4f88-8960-adc85d442fd7)
+
+
+![image](https://github.com/user-attachments/assets/443de854-48db-4833-8928-7aaec58e84ec)
+
 THey need to collaborate instead of compete for the forks, so they start bloking the fork wiht th smaller number.
 
 
