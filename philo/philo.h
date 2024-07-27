@@ -73,7 +73,7 @@ void			my_th_join(pthread_t *t);
 void			err_abort(int code, char *txt);
 pthread_mutex_t	**forks_create(int num);
 void			forks_free(pthread_mutex_t **forks, int num);
-pthread_t		**philo_create(t_moni *moni);
+void			philo_create(t_moni *moni);
 void			*philo_thread(void *arg);
 pthread_t		**threads_create(int num);
 void			free_threads(pthread_t	**threads_ids, int num);

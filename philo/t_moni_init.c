@@ -113,7 +113,7 @@ void	t_moni_show(t_moni *r)
 	printf("r->tts        = %d\n", r->ttd);
 	printf("r->num_lunchs = %d\n", r->num_lunchs);
 	printf("r->mynum      = %d\n", r->mynum);
-	printf("r->thread_id  = %d\n", (int)r->thread_id);
+	printf("r->thread_id  = %d\n", (int)r->mythread_id);
 	printf("r->fork_r     = %d\n", r->fork_r);
 	printf("r->fork_l     = %d\n", r->fork_l);
 }

@@ -14,7 +14,6 @@
 int	main(int argc, char	**argv)
 {
 	t_moni			*moni;
-	pthread_t		**threads_ids;
 	int				i;
 
 	if ((argc < 5) || (argc > 6))
@@ -29,11 +28,11 @@ int	main(int argc, char	**argv)
 		return (1);
 	}
 	printf("Creating  %d philosophers\n.", moni->num_phi);
-	threads_ids = philo_create(moni);
+	philo_create(moni);
 	i = 1;
 	while (i <= moni->num_phi)
-		my_th_join(threads_ids[i++]);
-	free_threads(threads_ids, moni->num_phi);
+		my_th_join(moni->thread_ids[i++]);
+	free_threads(moni->thread_ids, moni->num_phi);
 	forks_free(moni->forks, moni->num_phi);
 	t_moni_free(moni);
 	return (0);
