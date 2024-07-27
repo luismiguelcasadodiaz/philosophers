@@ -23,8 +23,6 @@ set detach-on-fork off
 # Set Breakpoint at main function
 break main
 # Set other breakpoint
-break philo.c:29
-break philo_creation.c:11
-break philo_thread.c:37
+#break my_thread_join.c:20
 # set alias
 run 5 300 200 200 3

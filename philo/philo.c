@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:09:07 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/26 17:57:06 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:03:39 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -33,5 +33,8 @@ int	main(int argc, char	**argv)
 	i = 1;
 	while (i <= moni->num_phi)
 		my_th_join(threads_ids[i++]);
+	free_threads(threads_ids, moni->num_phi);
+	forks_free(moni->forks, moni->num_phi);
+	t_moni_free(moni);
 	return (0);
 }

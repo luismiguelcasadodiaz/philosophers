@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/26 14:21:57 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/27 12:52:41 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ t_moni	*t_moni_copy_set(int mynum, t_moni *ori)
 void	t_moni_free(t_moni *r)
 {
 	r->num_phi = 0;
-	//Hay de destruir los forks
 	r->ttd = 0;
 	r->tte = 0;
 	r->tts = 0;
@@ -85,10 +84,7 @@ void	t_moni_free(t_moni *r)
 void	t_moni_set(t_moni *r, int i, int num)
 {
 	if (i == 1)
-	{
 		r->num_phi = num;
-		r->forks = forks_create(num);
-	}
 	if (i == 2)
 		r->ttd = num;
 	if (i == 3)

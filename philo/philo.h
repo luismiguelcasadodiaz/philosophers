@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/26 18:31:03 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:04:22 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -67,7 +67,9 @@ void			my_th_detach(pthread_t *t);
 void			my_th_join(pthread_t *t);
 void			err_abort(int code, char *txt);
 pthread_mutex_t	**forks_create(int num);
+void			forks_free(pthread_mutex_t **forks, int num);
 pthread_t		**philo_create(t_moni *moni);
 void			*philo_thread(void *arg);
+void			free_threads(pthread_t	**threads_ids, int num);
 void			philo_msg(int i, char *msg, int msg_len, pthread_mutex_t *mtx);
 #endif

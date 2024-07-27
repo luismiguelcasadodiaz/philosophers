@@ -6,10 +6,9 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:39:10 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/25 19:13:02 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/27 08:44:22 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "philo.h"
 
 pthread_mutex_t	**forks_create(int num)
