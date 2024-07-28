@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/27 12:52:41 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:19:34 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ t_moni	*t_moni_init(void)
 	r->tte = 0;
 	r->tts = 0;
 	r->num_lunchs = 0;
-	r->sim_init_ms = my_now_ms();
+	r->sim_init_ms = NULL;
+	r->casualty = NULL;
 	r->mynum = 0;
-	r->mythread_id = 0;
 	r->fork_r = 0;
 	r->fork_l = 0;
 	return (r);
@@ -56,8 +56,8 @@ t_moni	*t_moni_copy_set(int mynum, t_moni *ori)
 	r->tts = ori->tts;
 	r->num_lunchs = ori->num_lunchs;
 	r->sim_init_ms = ori->sim_init_ms;
+	r->casualty = ori->casualty;
 	r->mynum = mynum;
-	r->mythread_id = mynum;
 	r->fork_l = mynum;
 	if (mynum == ori->num_phi)
 		r->fork_r = 1;
@@ -69,17 +69,28 @@ t_moni	*t_moni_copy_set(int mynum, t_moni *ori)
 /* ************************************************************************** */
 /* t_moni_free() frees a monitoring structure                                 */
 /* ************************************************************************** */
-void	t_moni_free(t_moni *r)
+void	t_moni_free(t_moni *r, int full)
 {
-	r->forks = NULL;
-	r->thread_ids = NULL;
+	if (full)
+	{
+		forks_free(r->forks, (r->num_phi));
+		threads_free(r->thread_ids, r->num_phi);
+		lng_free(r->casualty);
+		lng_free(r->sim_init_ms);
+	}
+	else
+	{
+		r->forks = NULL;
+		r->thread_ids = NULL;
+		r->casualty = NULL;
+		r->sim_init_ms = NULL;
+	}
 	r->num_phi = 0;
 	r->ttd = 0;
 	r->tte = 0;
 	r->tts = 0;
 	r->num_lunchs = 0;
 	r->mynum = 0;
-	r->mythread_id = 0;
 	r->fork_r = 0;
 	r->fork_l = 0;
 	free(r);
@@ -109,11 +120,13 @@ void	t_moni_show(t_moni *r)
 {
 	printf("r->num_phi    = %d\n", r->num_phi);
 	printf("r->ttd        = %d\n", r->ttd);
-	printf("r->tte        = %d\n", r->ttd);
-	printf("r->tts        = %d\n", r->ttd);
+	printf("r->tte        = %d\n", r->tte);
+	printf("r->tts        = %d\n", r->tts);
 	printf("r->num_lunchs = %d\n", r->num_lunchs);
 	printf("r->mynum      = %d\n", r->mynum);
-	printf("r->thread_id  = %d\n", (int)r->mythread_id);
+	printf("r->mynum      = %d\n", r->mynum);
+	printf("r->casualty   = %ld\n", *r->casualty);
+	printf("r->thread_id  = %d\n", (int)*r->thread_ids[r->mynum]);
 	printf("r->fork_r     = %d\n", r->fork_r);
 	printf("r->fork_l     = %d\n", r->fork_l);
 }

@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   threads_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   luicasad <luicasad@student.42barcelona.com>    +#+  +:+       +#+        */
+/*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/27 16:41:54 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/27 16:42:05 by luicasad         ###   ########.fr       */
+/*   Created: 2024/07/28 18:18:21 by luicasad          #+#    #+#             */
+/*   Updated: 2024/07/28 19:09:57 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "philo.h"
 
-void	free_threads(pthread_t	**threads_ids, int num)
+void	threads_free(pthread_t	**threads_ids, int num)
 {
 	int	i;
 
-	i = 1;
-	while (i < num)
+	i = 0;
+	while (i <= num)
 		free(threads_ids[i++]);
 	free(threads_ids);
 }
