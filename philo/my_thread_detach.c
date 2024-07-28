@@ -6,17 +6,21 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:18:55 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/26 16:54:32 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:29:51 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	my_th_detach(pthread_t *t)
+int	my_th_detach(pthread_t *t)
 {
-	int			status;
+	int			s;
 
-	status = pthread_detach(*t);
-	if (status != 0)
-		err_abort (status, "Detach thread");
+	s = pthread_detach(*t);
+	if (s != 0)
+	{
+		printf("Detach thread<%s:%d> %s\n", __FILE__, __LINE__, strerror (s));
+		return (1);
+	}
+	return (0);
 }

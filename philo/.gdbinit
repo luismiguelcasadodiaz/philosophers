@@ -24,6 +24,11 @@ set detach-on-fork off
 break main
 # Set other breakpoint
 #break my_thread_join.c:20
+<<<<<<< HEAD
 break philo_creation.c:88
+=======
+break philo_creation.c:33
+break philo_thread.c:83
+>>>>>>> 7fa1624 (no Exit, no Abort)
 # set alias
 run 1 300 200 200 3

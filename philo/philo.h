@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/27 14:04:22 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:32:10 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -16,6 +16,16 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# define FULL 1
+# define PART 0
+# define MUTEX_ADD 3
+
+/* MUTEX_ADD 1   screen                                                       */
+/* MUTEX_ADD 2   screen + init_time                                           */
+/* MUTEX_ADD 3   screnn + init_time + casualties                              */
+# define SCREEN   0
+# define INITTIME 1
+# define CASUALTY 2
 
 /* ************************************************************************** */
 /* t_moni_set() helper funcion to test a CLI argument in the right field      */
@@ -27,7 +37,8 @@
 /* tte         Holds CLI time to eat                                          */
 /* tts         Holds CLI time to sleep                                        */
 /* num_lunchs  Holds CLI optional number of times must eat.                   */
-/* sim_ini_ms  Holds timestamp in ms for simulation initiation                */
+/* sim_ini_ms  Holds a pointer to a time stamp for simulation initiation      */
+/* casualty    Holds a pointer to a flag reporting if any philo died          */
 /* mynum       Holds the number of this philosopher                           */
 /* fork_l      Holds fork number to use with left hand                        */
 /* fork_r      Holds fork number to use with right hand                       */
@@ -42,16 +53,20 @@ typedef struct s_p_moni
 	int				tte;
 	int				tts;
 	int				num_lunchs;
-	long			sim_init_ms;
+	long			*sim_init_ms;
+	long			*casualty;
 	int				mynum;
-	pthread_t		mythread_id;
 	int				fork_l;
 	int				fork_r;
 
 }	t_moni;
 
+long			*lng_create(long num);
+void			lng_free(long	*ptr);
+void			lng_set(long *ptr, pthread_mutex_t *mtx, long num);
+long			lng_get(long *ptr, pthread_mutex_t *mtx);
 t_moni			*t_moni_init(void);
-void			t_moni_free(t_moni *r);
+void			t_moni_free(t_moni *r, int full);
 void			t_moni_set(t_moni *r, int i, int num);
 t_moni			*t_moni_copy_set(int mynum, t_moni *ori);
 void			t_moni_show(t_moni *r);
@@ -65,17 +80,16 @@ long			my_now_ms(void);
 t_moni			*arg_ok(int argc, char **argv);
 int				arg_digits(char	*arg);
 int				arg_range_int(char *arg, int *my_int);
-void			my_mutex_lock(pthread_mutex_t	*alarm_mutex);
-void			my_mutex_unlock(pthread_mutex_t	*alarm_mutex);
-void			my_th_create(pthread_t *t, void *(*f)(void *), t_moni *arg);
-void			my_th_detach(pthread_t *t);
-void			my_th_join(pthread_t *t);
-void			err_abort(int code, char *txt);
+int				my_mutex_lock(pthread_mutex_t	*alarm_mutex);
+int				my_mutex_unlock(pthread_mutex_t	*alarm_mutex);
+int				my_th_create(pthread_t *t, void *(*f)(void *), t_moni *arg);
+int				my_th_detach(pthread_t *t);
+int				my_th_join(pthread_t *t);
 pthread_mutex_t	**forks_create(int num);
 void			forks_free(pthread_mutex_t **forks, int num);
-void			philo_create(t_moni *moni);
+int				philo_create(t_moni *moni);
 void			*philo_thread(void *arg);
 pthread_t		**threads_create(int num);
-void			free_threads(pthread_t	**threads_ids, int num);
+void			threads_free(pthread_t	**threads_ids, int num);
 void			philo_msg(int i, char *msg, int msg_len, pthread_mutex_t *mtx);
 #endif

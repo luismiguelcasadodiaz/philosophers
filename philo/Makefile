@@ -3,7 +3,7 @@ CC			= gcc
 WFLAG		= -Wall -Werror -Wextra
 DFLAG		= -g -fsanitize=thread
 DFLAG		= -g -fsanitize=address
-#DFLAG		= -g
+#DFLAG		= 
 CFLAG		= $(WFLAG) $(DFLAG) -c
 LFLAG		= -fsanitize=thread -lpthread
 LFLAG		= -fsanitize=address 
@@ -17,9 +17,9 @@ SRCS		= arg_digi.c \
 		  ft_atol.c \
 		  ft_itoa.c \
 		  ft_ltoa.c \
+		  my_long.c \
 		  my_now_ms.c \
 		  t_moni_init.c \
-		  err_abort.c \
 		  my_mutex_lock.c \
 		  my_mutex_unlock.c \
 		  my_thread_create.c \
@@ -42,6 +42,7 @@ $(info source files $(SRCS))
 $(info object files $(OBJS))
 
 all: $(NAME)
+	bash -c "sudo sysctl vm.mmap_rnd_bits=28"
 -include $(DEPE)
 
 %.d:%.c

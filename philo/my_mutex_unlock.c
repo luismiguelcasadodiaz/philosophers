@@ -6,17 +6,21 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:12:11 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/25 12:13:11 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:24:59 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	my_mutex_unlock(pthread_mutex_t	*alarm_mutex)
+int	my_mutex_unlock(pthread_mutex_t	*alarm_mutex)
 {
-	int	status;
+	int	s;
 
-	status = pthread_mutex_unlock (alarm_mutex);
-	if (status != 0)
-		err_abort (status, "Lock mutex");
+	s = pthread_mutex_unlock (alarm_mutex);
+	if (s != 0)
+	{
+		printf("Unlock mutex<%s:%d> %s\n", __FILE__, __LINE__, strerror (s));
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 08:56:34 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/25 12:53:20 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:19:01 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,50 @@
 /*./author LMCD (Luis Miguel Casado Diaz)                                    .*/
 /*.>*                                                                        .*/
 /* ************************************************************************** */
+void	validate_one_argument(char **argv, t_moni *r, int *all_ok, int i)
+{
+	int		num;
+
+	*all_ok = *all_ok && arg_digits(argv[i]);
+	if (*all_ok)
+		*all_ok = *all_ok && (arg_range_int(argv[i], &num));
+	if (*all_ok)
+		*all_ok = *all_ok && (0 < num);
+	if (*all_ok)
+		t_moni_set(r, i, num);
+}
+
+t_moni	*allocate_memory(t_moni *r)
+{
+	r->forks = forks_create(r->num_phi);
+	if (r->forks != NULL)
+	{
+		r->thread_ids = threads_create(r->num_phi);
+		if (r->thread_ids != NULL)
+		{
+			r->casualty = lng_create(0);
+			if (r->casualty != NULL)
+			{
+				r->sim_init_ms = lng_create(0);
+				if (r->sim_init_ms != NULL)
+					return (r);
+				else
+					lng_free(r->casualty);
+			}
+			else
+				threads_free(r->thread_ids, r->num_phi);
+		}
+		else
+			forks_free(r->forks, r->num_phi);
+	}
+	t_moni_free(r, PART);
+	return (NULL);
+}
+
 t_moni	*arg_ok(int argc, char **argv)
 {
 	int		i;
 	int		all_ok;
-	int		num;
 	t_moni	*r;
 
 	r = t_moni_init();
@@ -54,18 +93,9 @@ t_moni	*arg_ok(int argc, char **argv)
 	i = 1;
 	all_ok = 1;
 	while (all_ok && i < argc)
-	{
-		all_ok = all_ok && arg_digits(argv[i]);
-		if (all_ok)
-			all_ok = all_ok && (arg_range_int(argv[i], &num));
-		if (all_ok)
-			all_ok = all_ok && (0 < num);
-		if (all_ok)
-			t_moni_set(r, i, num);
-		i++;
-	}
+		validate_one_argument(argv, r, &all_ok, i++);
 	if (all_ok)
-		return (r);
-	t_moni_free(r);
+		return (allocate_memory(r));
+	t_moni_free(r, PART);
 	return (NULL);
 }
