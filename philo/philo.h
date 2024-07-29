@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/28 21:32:10 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:35:30 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -22,11 +22,14 @@
 
 /* MUTEX_ADD 1   screen                                                       */
 /* MUTEX_ADD 2   screen + init_time                                           */
-/* MUTEX_ADD 3   screnn + init_time + casualties                              */
+/* MUTEX_ADD 3   screen + init_time + casualties                              */
 # define SCREEN   0
 # define INITTIME 1
 # define CASUALTY 2
-
+/* ABSOLUT = 1 shows fulltime stamp ABSOLUT = 0 show simulation time          */
+# ifndef ABSOLUT
+#  define ABSOLUT 1
+# endif
 /* ************************************************************************** */
 /* t_moni_set() helper funcion to test a CLI argument in the right field      */
 /* forks	   Holds a pointer to all available mutexes                       */
@@ -91,5 +94,5 @@ int				philo_create(t_moni *moni);
 void			*philo_thread(void *arg);
 pthread_t		**threads_create(int num);
 void			threads_free(pthread_t	**threads_ids, int num);
-void			philo_msg(int i, char *msg, int msg_len, pthread_mutex_t *mtx);
+int				philo_msg(char *msg, int msg_len, t_moni *a);
 #endif

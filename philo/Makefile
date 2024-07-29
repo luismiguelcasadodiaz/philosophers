@@ -2,12 +2,12 @@ NAME		= philo
 CC			= gcc
 WFLAG		= -Wall -Werror -Wextra
 DFLAG		= -g -fsanitize=thread
-DFLAG		= -g -fsanitize=address
-#DFLAG		= 
+#DFLAG		= -g -fsanitize=address -DABSOLUT=0
+DFLAG		= -g 
 CFLAG		= $(WFLAG) $(DFLAG) -c
 LFLAG		= -fsanitize=thread -lpthread
-LFLAG		= -fsanitize=address 
-#LFLAG		= 
+#LFLAG		= -fsanitize=address 
+LFLAG		= 
 HEADER		= philo.h
 SRCS		= arg_digi.c \
 		  arg_pars.c \
