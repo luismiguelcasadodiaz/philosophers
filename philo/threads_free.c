@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_now_ms.c                                        :+:      :+:    :+:   */
+/*   threads_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
+/*   luicasad <luicasad@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 18:26:05 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/26 18:30:36 by luicasad         ###   ########.fr       */
+/*   Created: 2024/07/27 16:41:54 by luicasad          #+#    #+#             */
+/*   Updated: 2024/07/27 16:42:05 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "philo.h"
-#include <sys/time.h>
 
-long	my_now_ms(void)
+void	free_threads(pthread_t	**threads_ids, int num)
 {
-	struct timeval	s;
-	long			ms;
+	int	i;
 
-	gettimeofday(&s, NULL);
-	ms = (s.tv_sec * 1000000 + s.tv_usec) / 1000;
-	return (ms);
+	i = 1;
+	while (i < num)
+		free(threads_ids[i++]);
+	free(threads_ids);
 }

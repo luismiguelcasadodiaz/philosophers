@@ -24,13 +24,15 @@ t_moni	*t_moni_init(void)
 	if (!r)
 		return (NULL);
 	r->forks = NULL;
+	r->thread_ids = NULL;
 	r->num_phi = 0;
 	r->ttd = 0;
 	r->tte = 0;
 	r->tts = 0;
 	r->num_lunchs = 0;
+	r->sim_init_ms = my_now_ms();
 	r->mynum = 0;
-	r->thread_id = 0;
+	r->mythread_id = 0;
 	r->fork_r = 0;
 	r->fork_l = 0;
 	return (r);
@@ -47,13 +49,15 @@ t_moni	*t_moni_copy_set(int mynum, t_moni *ori)
 
 	r = t_moni_init();
 	r->forks = ori->forks;
+	r->thread_ids = ori->thread_ids;
 	r->num_phi = ori->num_phi;
 	r->ttd = ori->ttd;
 	r->tte = ori->tte;
 	r->tts = ori->tts;
 	r->num_lunchs = ori->num_lunchs;
+	r->sim_init_ms = ori->sim_init_ms;
 	r->mynum = mynum;
-	r->thread_id = mynum;
+	r->mythread_id = mynum;
 	r->fork_l = mynum;
 	if (mynum == ori->num_phi)
 		r->fork_r = 1;
@@ -67,12 +71,15 @@ t_moni	*t_moni_copy_set(int mynum, t_moni *ori)
 /* ************************************************************************** */
 void	t_moni_free(t_moni *r)
 {
+	r->forks = NULL;
+	r->thread_ids = NULL;
 	r->num_phi = 0;
 	r->ttd = 0;
 	r->tte = 0;
 	r->tts = 0;
 	r->num_lunchs = 0;
-	r->thread_id = 0;
+	r->mynum = 0;
+	r->mythread_id = 0;
 	r->fork_r = 0;
 	r->fork_l = 0;
 	free(r);
