@@ -2,7 +2,7 @@
 In this project, you will learn the basics of threading a process. You will see how to create threads and you will discover mutexes.
 
 # Overview
-Here are the things you need to know if you want to succeed this assignment:
+Here are the things you need to know if you want to succeed in this assignment:
 • One or more philosophers sit at a round table. There is a large bowl of spaghetti in the middle of the table.<br>
 • The philosophers alternatively eat, think, or sleep. While they are eating, they are not thinking nor sleeping; while thinking, they are not eating nor sleeping;and, of course, while sleeping, they are not eating nor thinking.<br>
 • There are also forks on the table. There are as many forks as philosophers.<br>
@@ -21,8 +21,7 @@ number_of_philosophers time_to_die time_to_eat time_to_sleep
 <ol>◦ number_of_philosophers: The number of philosophers and also the number
 of forks.</ol>
 <ol>◦ time_to_die (in milliseconds): If a philosopher didn’t start eating time_to_die
-milliseconds since the beginning of their last meal or the beginning of the sim-
-ulation, they die.</ol>
+milliseconds since the beginning of their last meal or the beginning of the simulation, they die.</ol>
 <ol>◦ time_to_eat (in milliseconds): The time it takes for a philosopher to eat.
 During that time, they will need to hold two forks.</ol>
 <ol>◦ time_to_sleep (in milliseconds): The time a philosopher will spend sleeping.</ol>
@@ -31,13 +30,9 @@ philosophers have eaten at least number_of_times_each_philosopher_must_eat
 times, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.</ol>
 <ul>• Each philosopher has a number ranging from 1 to number_of_philosophers.</ul>
-<ul>• Philosopher number 1 sits next to philosopher number number_of_philosophers. Any other philosopher number N sits between philosopher number N - 1 and philoso-
-pher number N + 1.</ul>
+<ul>• Philosopher number 1 sits next to philosopher number number_of_philosophers. Any other philosopher number N sits between philosopher number N - 1 and philosopher number N + 1.</ul>
 
-### Allowed functions in mandatory project
-
-There are 18 allowed functions for Pipex. All of them belong to the set of 51 functions allowed in minishell. I summarize them here. It is work in advance to understand minishell.
-
+### Allowed functions in the mandatory project
 
 |Library|Function|Description|
 |-------|-----|-------------------------------------------------------------------------------------|
@@ -47,7 +42,7 @@ There are 18 allowed functions for Pipex. All of them belong to the set of 51 fu
 |libc.h|free|Frees the memor space pointed to by a pointer |
 |history.h|write|writes to a file descripto. It is faster than printf.|
 |readline.h|usleep|Suspends execution of the calling thread for some microseconds|
-|readline.h|gettimeofday|gives the number of seconds and microseconds since Epoch. I convert into millisecons for this project.|
+|readline.h|gettimeofday|gives the number of seconds and microseconds since Epoch. I convert into milliseconds for this project.|
 |readline.h|pthread_create||
 |readline.h|pthread_detach||
 |readline.h|pthread_join||
@@ -107,30 +102,30 @@ typedef struct s_p_moni
 /* ************************************************************************** */
 /* t_moni_set() helper funcion to test a CLI argument in the right field      */
 /* forks       Holds a pointer to all available mutexes                       */
-/* threads_ids Holds a pointer to all available threads identificators        */
+/* threads_ids Holds a pointer to all available threads identifications        */
 /* num_phi     Holds CLI number of philosophers to simulate                   */
 /* ttd         Holds CLI time to die since the beginning of the last meal     */
 /*             or the beginning of the simulation                             */
 /* tte         Holds CLI time to eat                                          */
 /* tts         Holds CLI time to sleep                                        */
 /* num_lunchs  Holds CLI optional number of times must eat.                   */
-/* sim_ini_ms  Holds a pointer to a time stamp for simulation initiation      */
-/* casualty    Holds a pointer to a flag reporting if any philo died          */
+/* sim_ini_ms  Holds a pointer to a timestamp for simulation initiation      */
+/* casualty    Holds a pointer to a flag reporting if any Philo died          */
 /* mynum       Holds the number of this philosopher                           */
 /* fork_l      Holds fork number to use with left hand                        */
 /* fork_r      Holds fork number to use with right hand                       */
 /* ************************************************************************** */
 
 ```
-Philosophers get numbers from 1 to num_phi that is stored in mynum. Each Philosopher has a fork for the left hand. The left hand's fork has same number than philosopher number has. The right fork is mynum + 1 for all philosophers but philosopher num_phi, whose right hand fork is the number one.
+Philosophers get numbers from 1 to num_phi that is stored in mynum. Each Philosopher has a fork for the left hand. The left hand's fork has same number than philosopher number has. The right fork is mynum + 1 for all philosophers but philosopher num_phi, whose right-hand fork is the number one.
 
 ![image](https://github.com/user-attachments/assets/a5e028c6-1d6a-40bb-8437-4de2c58647ae)
 
-As forks is an arrray of mutexes, fork[0] is reserved to sincronize screen output. fork[1]..fork[num_phi] are mutexes for forks. fork[num_phi + 1] will sincronize the start. Fork[num_phi + 2] will protect write/read of casualty variable.
+As forks is an array of mutexes, fork[0] is reserved to synchronize screen output. fork[1]..fork[num_phi] are mutexes for forks. fork[num_phi + 1] will sincronize the start. Fork[num_phi + 2] will protect write/read of casualty variable.
 
 memory allocation for Forks and thread_ids is done once arg_ok validates command line arguments.
 
-Worths to pay attention to the special case of two philosophers:
+It is worth paying attention to the special case of two philosophers:
 
 
 ![image](https://github.com/user-attachments/assets/443de854-48db-4833-8928-7aaec58e84ec)
