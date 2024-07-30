@@ -39,7 +39,7 @@ philosopher dies.</ol>
 |libc.h|memset|Fills the first n bytes of the memory area pointed by s with the constant c.|
 |stdio.h|printf||
 |libc.h|malloc|Allocates memory|
-|libc.h|free|Frees the memor space pointed to by a pointer |
+|libc.h|free|Frees the memory space pointed to by a pointer |
 |history.h|write|writes to a file descripto. It is faster than printf.|
 |readline.h|usleep|Suspends execution of the calling thread for some microseconds|
 |readline.h|gettimeofday|gives the number of seconds and microseconds since Epoch. I convert into milliseconds for this project.|
@@ -53,7 +53,7 @@ philosopher dies.</ol>
 
 ### Allowed functions in bonus project
 
-There are 18 allowed functions for Pipex. All of them belong to the set of 51 functions allowed in minishell. I summarize them here. It is work in advance to understand minishell.
+
 
 
 |Library|Function|Description|
@@ -100,7 +100,7 @@ typedef struct s_p_moni
 }	t_moni;
 
 /* ************************************************************************** */
-/* t_moni_set() helper funcion to test a CLI argument in the right field      */
+/* t_moni_set() helper function to test a CLI argument in the right field      */
 /* forks       Holds a pointer to all available mutexes                       */
 /* threads_ids Holds a pointer to all available threads identifications        */
 /* num_phi     Holds CLI number of philosophers to simulate                   */
@@ -117,11 +117,11 @@ typedef struct s_p_moni
 /* ************************************************************************** */
 
 ```
-Philosophers get numbers from 1 to num_phi that is stored in mynum. Each Philosopher has a fork for the left hand. The left hand's fork has same number than philosopher number has. The right fork is mynum + 1 for all philosophers but philosopher num_phi, whose right-hand fork is the number one.
+Philosophers get numbers from 1 to num_phi that are stored in mynum. Each Philosopher has a fork for the left hand. The left hand's fork has the same number as the philosopher. The right fork is mynum + 1 for all philosophers but philosopher num_phi, whose right-hand fork is the number one.
 
 ![image](https://github.com/user-attachments/assets/a5e028c6-1d6a-40bb-8437-4de2c58647ae)
 
-As forks is an array of mutexes, fork[0] is reserved to synchronize screen output. fork[1]..fork[num_phi] are mutexes for forks. fork[num_phi + 1] will sincronize the start. Fork[num_phi + 2] will protect write/read of casualty variable.
+As forks is an array of mutexes, fork[0] is reserved to synchronize screen output. fork[1]..fork[num_phi] are mutexes for forks. fork[num_phi + 1] will sincronize the start. Fork[num_phi + 2] will protect the write/read of the casualty variable.
 
 memory allocation for Forks and thread_ids is done once arg_ok validates command line arguments.
 
@@ -130,6 +130,7 @@ It is worth paying attention to the special case of two philosophers:
 
 ![image](https://github.com/user-attachments/assets/443de854-48db-4833-8928-7aaec58e84ec)
 
-THey need to collaborate instead of compete for the forks, so they start bloking the fork wiht th smaller number.
+They need to collaborate instead of compete for the forks, so they start blocking the fork with the smaller number.
 
-
+# Sources of information
+Programming with POSIX threads. David R. Butenhof (https://www.amazon.es/Programming-Threads-Addison-Wesley-Professional-Computing-ebook/dp/B006QTHCJ6)
