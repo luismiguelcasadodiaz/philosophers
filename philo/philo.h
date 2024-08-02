@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/29 18:35:30 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:53:37 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -94,5 +94,6 @@ int				philo_create(t_moni *moni);
 void			*philo_thread(void *arg);
 pthread_t		**threads_create(int num);
 void			threads_free(pthread_t	**threads_ids, int num);
+void			threads_join(t_moni *moni);
 int				philo_msg(char *msg, int msg_len, t_moni *a);
 #endif
