@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:12:32 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/29 16:41:56 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:26:28 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -37,13 +37,16 @@ int	philo_msg(char *msg, int msg_len, t_moni *a)
 	char			*me;
 	int				me_len;
 
+	my_mutex_lock(a->forks[SCREEN]);
 	if (lng_get(a->casualty, a->forks[a->num_phi + CASUALTY]))
+	{
+		my_mutex_unlock(a->forks[SCREEN]);
 		return (1);
+	}
 	if (msg[1] == 'd')
 		lng_set(a->casualty, a->forks[a->num_phi + CASUALTY], 1);
 	ms = make_timestamp(&ms_len, *a->sim_init_ms);
 	me = ft_itoa(a->mynum, &me_len);
-	my_mutex_lock(a->forks[SCREEN]);
 	write(1, &ms[1], ms_len);
 	write(1, me, me_len + 1);
 	write(1, msg, msg_len);
