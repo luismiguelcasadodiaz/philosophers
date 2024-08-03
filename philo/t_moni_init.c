@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/28 19:19:34 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/03 08:53:51 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_moni	*t_moni_init(void)
 	r->num_lunchs = 0;
 	r->sim_init_ms = NULL;
 	r->casualty = NULL;
+	r->allborn = NULL;
 	r->mynum = 0;
 	r->fork_r = 0;
 	r->fork_l = 0;
@@ -57,6 +58,7 @@ t_moni	*t_moni_copy_set(int mynum, t_moni *ori)
 	r->num_lunchs = ori->num_lunchs;
 	r->sim_init_ms = ori->sim_init_ms;
 	r->casualty = ori->casualty;
+	r->allborn = ori->allborn;
 	r->mynum = mynum;
 	r->fork_l = mynum;
 	if (mynum == ori->num_phi)
@@ -75,15 +77,17 @@ void	t_moni_free(t_moni *r, int full)
 	{
 		forks_free(r->forks, (r->num_phi));
 		threads_free(r->thread_ids, r->num_phi);
-		lng_free(r->casualty);
 		lng_free(r->sim_init_ms);
+		lng_free(r->casualty);
+		lng_free(r->allborn);
 	}
 	else
 	{
 		r->forks = NULL;
 		r->thread_ids = NULL;
-		r->casualty = NULL;
 		r->sim_init_ms = NULL;
+		r->casualty = NULL;
+		r->allborn = NULL;
 	}
 	r->num_phi = 0;
 	r->ttd = 0;
@@ -126,6 +130,7 @@ void	t_moni_show(t_moni *r)
 	printf("r->mynum      = %d\n", r->mynum);
 	printf("r->mynum      = %d\n", r->mynum);
 	printf("r->casualty   = %ld\n", *r->casualty);
+	printf("r->allborn   = %ld\n", *r->allborn);
 	printf("r->thread_id  = %d\n", (int)*r->thread_ids[r->mynum]);
 	printf("r->fork_r     = %d\n", r->fork_r);
 	printf("r->fork_l     = %d\n", r->fork_l);

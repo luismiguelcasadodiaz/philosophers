@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:00:46 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/29 18:43:14 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:04:41 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,15 @@ void	*philo_thread(void *arg)
 	int				lunchs;
 	int				morelunch;
 	t_moni			*a;
+	long			allborn;
 
 	a = (t_moni *)arg;
 	lunchs = 0;
 	morelunch = 1;
 	my_mutex_lock(a->forks[a->num_phi + INITTIME]);
 	my_mutex_unlock(a->forks[a->num_phi + INITTIME]);
-	while (morelunch)
+	allborn = lng_get(a->allborn, a->forks[a->num_phi + ALLBORN]);
+	while (morelunch && allborn)
 	{
 		if (philo_actions((t_moni *)a, &morelunch))
 		{

@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/02 11:53:37 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:00:46 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -18,14 +18,16 @@
 # include <string.h>
 # define FULL 1
 # define PART 0
-# define MUTEX_ADD 3
+# define MUTEX_ADD 4
 
 /* MUTEX_ADD 1   screen                                                       */
 /* MUTEX_ADD 2   screen + init_time                                           */
 /* MUTEX_ADD 3   screen + init_time + casualties                              */
+/* MUTEX_ADD 4   screen + init_time + casualties + allborn                    */
 # define SCREEN   0
 # define INITTIME 1
 # define CASUALTY 2
+# define ALLBORN  3
 /* ABSOLUT = 1 shows fulltime stamp ABSOLUT = 0 show simulation time          */
 # ifndef ABSOLUT
 #  define ABSOLUT 1
@@ -42,6 +44,7 @@
 /* num_lunchs  Holds CLI optional number of times must eat.                   */
 /* sim_ini_ms  Holds a pointer to a time stamp for simulation initiation      */
 /* casualty    Holds a pointer to a flag reporting if any philo died          */
+/* allborn     Holds a pointer to a flag reporting if all num_phi were born   */
 /* mynum       Holds the number of this philosopher                           */
 /* fork_l      Holds fork number to use with left hand                        */
 /* fork_r      Holds fork number to use with right hand                       */
@@ -58,6 +61,7 @@ typedef struct s_p_moni
 	int				num_lunchs;
 	long			*sim_init_ms;
 	long			*casualty;
+	long			*allborn;
 	int				mynum;
 	int				fork_l;
 	int				fork_r;

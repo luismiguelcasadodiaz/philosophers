@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:18:55 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/28 20:40:02 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:34:19 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	my_th_create(pthread_t *t, void *(*f)(void *), t_moni *arg)
 	if (s != 0)
 	{
 		printf("Create thread<%s:%d> %s\n", __FILE__, __LINE__, strerror (s));
+		*t = 0;
 		return (1);
 	}
 	return (0);

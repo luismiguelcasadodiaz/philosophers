@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 08:56:34 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/28 19:19:01 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/03 09:24:19 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 /*./author LMCD (Luis Miguel Casado Diaz)                                    .*/
 /*.>*                                                                        .*/
 /* ************************************************************************** */
-void	validate_one_argument(char **argv, t_moni *r, int *all_ok, int i)
+static void	validate_one_argument(char **argv, t_moni *r, int *all_ok, int i)
 {
 	int		num;
 
@@ -54,25 +54,41 @@ void	validate_one_argument(char **argv, t_moni *r, int *all_ok, int i)
 		t_moni_set(r, i, num);
 }
 
-t_moni	*allocate_memory(t_moni *r)
+static void	allocate_memory_lng(t_moni *r, int *ok)
 {
+	r->casualty = lng_create(0);
+	if (r->casualty != NULL)
+	{
+		r->sim_init_ms = lng_create(0);
+		if (r->sim_init_ms != NULL)
+		{
+			r->allborn = lng_create(0);
+			if (r->allborn != NULL)
+				*ok = 1;
+			else
+				lng_free(r->allborn);
+		}
+		else
+			lng_free(r->casualty);
+	}
+	else
+		threads_free(r->thread_ids, r->num_phi);
+}
+
+static t_moni	*allocate_memory(t_moni *r)
+{
+	int	ok;
+
+	ok = 0;
 	r->forks = forks_create(r->num_phi);
 	if (r->forks != NULL)
 	{
 		r->thread_ids = threads_create(r->num_phi);
 		if (r->thread_ids != NULL)
 		{
-			r->casualty = lng_create(0);
-			if (r->casualty != NULL)
-			{
-				r->sim_init_ms = lng_create(0);
-				if (r->sim_init_ms != NULL)
-					return (r);
-				else
-					lng_free(r->casualty);
-			}
-			else
-				threads_free(r->thread_ids, r->num_phi);
+			allocate_memory_lng(r, &ok);
+			if (ok)
+				return (r);
 		}
 		else
 			forks_free(r->forks, r->num_phi);
