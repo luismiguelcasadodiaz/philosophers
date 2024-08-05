@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/03 09:00:46 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:11:51 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -65,6 +65,7 @@ typedef struct s_p_moni
 	int				mynum;
 	int				fork_l;
 	int				fork_r;
+	long			s_eat_ms;
 
 }	t_moni;
 

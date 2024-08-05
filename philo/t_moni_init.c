@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/03 08:53:51 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:12:56 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_moni	*t_moni_init(void)
 	r->sim_init_ms = NULL;
 	r->casualty = NULL;
 	r->allborn = NULL;
+	r->s_eat_ms = 0;
 	r->mynum = 0;
 	r->fork_r = 0;
 	r->fork_l = 0;
@@ -60,11 +61,22 @@ t_moni	*t_moni_copy_set(int mynum, t_moni *ori)
 	r->casualty = ori->casualty;
 	r->allborn = ori->allborn;
 	r->mynum = mynum;
-	r->fork_l = mynum;
-	if (mynum == ori->num_phi)
-		r->fork_r = 1;
+	if ((mynum % 2) == 0)
+	{
+		r->fork_r = mynum;
+		if (mynum == ori->num_phi)
+			r->fork_l = 1;
+		else
+			r->fork_l = mynum + 1;
+	}
 	else
-		r->fork_r = mynum + 1;
+	{
+		r->fork_l = mynum;
+		if (mynum == ori->num_phi)
+			r->fork_r = 1;
+		else
+			r->fork_r = mynum + 1;
+	}
 	return (r);
 }
 

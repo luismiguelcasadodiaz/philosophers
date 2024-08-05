@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:00:46 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/03 09:04:41 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:27:50 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,32 @@
 static int	take_forks(t_moni *a)
 {
 	int	result;
+	long			now_ms;
 
 	result = 0;
-	if ((a->mynum % 2) == 0)
+	my_mutex_lock(a->forks[a->fork_r]);
+	result = philo_msg(" has taken a fork\n", 18, a);
+	now_ms = my_now_ms();
+	//printf("phil2 (%d) comio hace %ld a las %ld\n", a->mynum, now_ms - a->s_eat_ms, a->s_eat_ms);
+	if ((now_ms - a->s_eat_ms) > a->ttd)
 	{
-		my_mutex_lock(a->forks[a->fork_r]);
-		result = philo_msg(" has taken a fork\n", 18, a);
-		my_mutex_lock(a->forks[a->fork_l]);
+		philo_msg(" died\n", 6, a);
+		return (1);
 	}
-	else
-	{
-		my_mutex_lock(a->forks[a->fork_l]);
-		result = philo_msg(" has taken a fork\n", 18, a);
-		my_mutex_lock(a->forks[a->fork_r]);
-	}
+	my_mutex_lock(a->forks[a->fork_l]);
 	return (result);
 }
 
 static void	release_forks(t_moni *a)
 {
-	if ((a->mynum % 2) == 0)
-	{
-		my_mutex_unlock(a->forks[a->fork_l]);
-		my_mutex_unlock(a->forks[a->fork_r]);
-	}
-	else
-	{
-		my_mutex_unlock(a->forks[a->fork_r]);
-		my_mutex_unlock(a->forks[a->fork_l]);
-	}
+	my_mutex_unlock(a->forks[a->fork_l]);
+	my_mutex_unlock(a->forks[a->fork_r]);
 }
 
-static int	philo_eat(t_moni *a, long *s_eat_ms)
+static int	philo_eat(t_moni *a)
 {
+	long			now_ms;
+
 	if (take_forks(a))
 	{
 		release_forks(a);
@@ -71,13 +64,30 @@ static int	philo_eat(t_moni *a, long *s_eat_ms)
 		release_forks(a);
 		return (1);
 	}
+	now_ms = my_now_ms();
+	//printf("phil2 (%d) comio hace %ld a las %ld\n", a->mynum, now_ms - a->s_eat_ms, a->s_eat_ms);
+	if ((now_ms - a->s_eat_ms) > a->ttd)
+	{
+		philo_msg(" died\n", 6, a);
+		return (1);
+	}
 	if (philo_msg(" is eating\n", 11, a))
 	{
 		release_forks(a);
 		return (1);
 	}
-	*s_eat_ms = my_now_ms();
-	usleep(1000 * a->tte);
+	a->s_eat_ms = my_now_ms();
+	if (a->ttd >= a->tte)
+		usleep(1000 * a->tte);
+	else
+	{
+		usleep(1000 * a->ttd);
+		if (philo_msg(" died\n", 6, a))
+		{
+			release_forks(a);
+			return (1);
+		}
+	}
 	release_forks(a);
 	return (0);
 }
@@ -87,21 +97,40 @@ static int	philo_eat(t_moni *a, long *s_eat_ms)
 //to die then dies
 static int	philo_actions(t_moni *a, int *morelunch)
 {
-	long			s_eat_ms;
 	long			now_ms;
 
 	if (a->num_phi != 1)
 	{
-		if (philo_eat(a, &s_eat_ms))
+		now_ms = my_now_ms();
+		//printf("phil1 (%d) comio hace %ld a las %ld\n", a->mynum, now_ms - a->s_eat_ms, a->s_eat_ms);
+		if ((now_ms - a->s_eat_ms) > a->ttd)
+		{
+			philo_msg(" died\n", 6, a);
+			return (1);
+		}
+		if (philo_eat(a))
 			return (1);
 		if (philo_msg(" is sleeping\n", 13, a))
 			return (1);
-		usleep(1000 * a->tts);
+		if (a->ttd >= (a->tte + a->tts))
+			usleep(1000 * a->tts);
+		else
+		{
+			usleep(1000 * (a->ttd - a->tte));
+			philo_msg(" died\n", 6, a);
+			return (1);
+		}
+		now_ms = my_now_ms();
+		//printf("phil3 (%d) comio hace %ld a las %ld\n", a->mynum, now_ms - a->s_eat_ms, a->s_eat_ms);
+		if ((now_ms - a->s_eat_ms) > a->ttd)
+		{	
+			philo_msg(" died\n", 6, a);
+			return (1);
+		}
 		if (philo_msg(" is thinking\n", 13, a))
 			return (1);
 	}
-	now_ms = my_now_ms();
-	if ((a->num_phi == 1) || (now_ms - s_eat_ms > a->ttd))
+	if (a->num_phi == 1)
 	{
 		*morelunch = 0;
 		if (philo_msg(" died\n", 6, a))
@@ -123,6 +152,7 @@ void	*philo_thread(void *arg)
 	my_mutex_lock(a->forks[a->num_phi + INITTIME]);
 	my_mutex_unlock(a->forks[a->num_phi + INITTIME]);
 	allborn = lng_get(a->allborn, a->forks[a->num_phi + ALLBORN]);
+	a->s_eat_ms = lng_get(a->sim_init_ms, a->forks[a->num_phi + INITTIME]);
 	while (morelunch && allborn)
 	{
 		if (philo_actions((t_moni *)a, &morelunch))
