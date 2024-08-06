@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 08:56:34 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/03 09:24:19 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:19:37 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static void	allocate_memory_lng(t_moni *r, int *ok)
 		else
 			lng_free(r->casualty);
 	}
-	else
-		threads_free(r->thread_ids, r->num_phi);
 }
 
 static t_moni	*allocate_memory(t_moni *r)
@@ -83,12 +81,18 @@ static t_moni	*allocate_memory(t_moni *r)
 	r->forks = forks_create(r->num_phi);
 	if (r->forks != NULL)
 	{
-		r->thread_ids = threads_create(r->num_phi);
-		if (r->thread_ids != NULL)
+		allocate_memory_lng(r, &ok);
+		if (ok)
 		{
-			allocate_memory_lng(r, &ok);
-			if (ok)
+			r->threads = threads_create(r);
+			if (r->threads != NULL)
 				return (r);
+			else
+			{
+				lng_free(r->casualty);
+				lng_free(r->allborn);
+				lng_free(r->sim_init_ms);
+			}
 		}
 		else
 			forks_free(r->forks, r->num_phi);

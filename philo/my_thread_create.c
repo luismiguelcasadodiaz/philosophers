@@ -6,13 +6,13 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:18:55 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/03 09:34:19 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:34:22 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	my_th_create(pthread_t *t, void *(*f)(void *), t_moni *arg)
+int	my_th_create(pthread_t *t, void *(*f)(void *), t_thread *arg)
 {
 	int			s;
 

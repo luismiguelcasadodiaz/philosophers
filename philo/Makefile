@@ -1,12 +1,12 @@
 NAME		= philo
 CC			= gcc
 WFLAG		= -Wall -Werror -Wextra
-DFLAG		= -g -fsanitize=thread
-DFLAG		= -g -fsanitize=address -DABSOLUT=0
+DFLAG		= -g -fsanitize=thread -DABSOLUT=0
+#DFLAG		= -g -fsanitize=address -DABSOLUT=0
 #DFLAG		= -g 
 CFLAG		= $(WFLAG) $(DFLAG) -c
 LFLAG		= -fsanitize=thread -lpthread
-LFLAG		= -fsanitize=address 
+#LFLAG		= -fsanitize=address 
 #LFLAG		= 
 HEADER		= philo.h
 SRCS		= arg_digi.c \
@@ -19,7 +19,9 @@ SRCS		= arg_digi.c \
 		  ft_ltoa.c \
 		  my_long.c \
 		  my_now_ms.c \
+		  my_usleep.c \
 		  t_moni_init.c \
+		  t_thread_init.c \
 		  my_mutex_lock.c \
 		  my_mutex_unlock.c \
 		  my_thread_create.c \

@@ -6,17 +6,17 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:18:55 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/29 18:33:51 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/05 11:22:44 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	my_th_join(pthread_t *t)
+int	my_th_join(pthread_t t)
 {
 	int			s;
 
-	s = pthread_join(*t, NULL);
+	s = pthread_join(t, NULL);
 	if (s != 0)
 	{
 		printf("Join thread<%s:%d> %s\n", __FILE__, __LINE__, strerror (s));

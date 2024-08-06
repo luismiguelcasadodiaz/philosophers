@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:12:32 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/02 11:26:28 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:47:26 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -30,7 +30,7 @@ static char	*make_timestamp(int *ms_len, long sim_init_ms)
 	return (ms);
 }
 
-int	philo_msg(char *msg, int msg_len, t_moni *a)
+int	philo_msg(char *msg, int msg_len, t_thread *a)
 {
 	char			*ms;
 	int				ms_len;
