@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 12:36:19 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 17:50:30 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:09:04 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	lng_set_t_var(t_thread *t, long num)
 void	lng_get_t_var(t_thread *t, long *s_eat_ms, int *num_lunchs)
 {
 	my_mutex_lock(t->s_eat_mtx);
-	*s_eat_ms = t->s_eat_ms;
+	*s_eat_ms = *t->s_eat_ms;
 	*num_lunchs = t->num_lunchs;
 	my_mutex_unlock(t->s_eat_mtx);
 }

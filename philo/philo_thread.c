@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:00:46 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 17:58:25 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:19:47 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	philo_eat(t_thread *a)
 		return (1);
 	}
 	usleep(1000 * a->tte);
-	lng_set(a, s_eat_ms);
+	lng_set_t_var(a, s_eat_ms);
 	release_forks(a);
 	return (0);
 }
@@ -102,7 +102,7 @@ void	*philo_thread(void *arg)
 			if (philo_actions(t))
 				return ((void *)1);
 			lunchs++;
-			morelunch = morelunch && !(t->num_lunchs);
+			morelunch = morelunch && (t->num_lunchs > 0);
 		}
 	}
 	return ((void *)0);
