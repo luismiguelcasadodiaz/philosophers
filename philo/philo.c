@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:09:07 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 15:23:16 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:57:14 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -24,7 +24,7 @@ static void	monitor(t_moni *m)
 		i = 1;
 		while (i <= m->num_phi && !died)
 		{
-			ate = lng_get(m->threads[i]->s_eat_ms, m->threads[i]->s_eat_mtx);
+			lng_get_t_var(m->threads[i],ate, lunchs);
 			now_ms = my_now_ms();
 			if (ate != 0 && (now_ms - ate) > m->ttd)
 			{

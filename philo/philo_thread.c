@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:00:46 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 17:06:00 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:58:25 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	release_forks(t_thread *a)
 
 static int	philo_eat(t_thread *a)
 {
+	long	s_eat_ms;
+
 	if (take_forks(a))
 	{
 		release_forks(a);
@@ -53,13 +55,14 @@ static int	philo_eat(t_thread *a)
 		release_forks(a);
 		return (1);
 	}
-	lng_set(a->s_eat_ms, a->s_eat_mtx, my_now_ms());
+	s_eat_ms = my_now_ms();
 	if (philo_msg(" is eating", a))
 	{
 		release_forks(a);
 		return (1);
 	}
 	usleep(1000 * a->tte);
+	lng_set(a, s_eat_ms);
 	release_forks(a);
 	return (0);
 }
@@ -99,7 +102,7 @@ void	*philo_thread(void *arg)
 			if (philo_actions(t))
 				return ((void *)1);
 			lunchs++;
-			morelunch = morelunch && !(t->num_lunchs == lunchs);
+			morelunch = morelunch && !(t->num_lunchs);
 		}
 	}
 	return ((void *)0);

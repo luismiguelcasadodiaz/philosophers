@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 14:34:02 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:25:56 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	t_thread_set_values(t_thread *t, t_moni *r)
 	t->ttd = r->ttd;
 	t->tte = r->tte;
 	t->tts = r->tts;
-	t->num_lunchs = 0;
+	t->num_lunchs = r->num_lunchs;
 }
 
 /* ************************************************************************** */

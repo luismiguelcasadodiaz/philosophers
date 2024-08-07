@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 16:58:59 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:51:52 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -87,6 +87,8 @@ long			*lng_create(long num);
 void			lng_free(long	*ptr);
 void			lng_set(long *ptr, pthread_mutex_t *mtx, long num);
 long			lng_get(long *ptr, pthread_mutex_t *mtx);
+void			lng_set_t_var(t_thread *t, long num);
+void			lng_get_t_var(t_thread *t, long *s_eat_ms, int *num_lunchs);
 t_thread		*t_thread_init(int num, t_moni *r);
 void			t_thread_free(t_thread *r);
 t_moni			*t_moni_init(void);
