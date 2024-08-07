@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:00:46 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/06 11:57:34 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:06:00 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	take_forks(t_thread *a)
 
 	result = 0;
 	my_mutex_lock(a->forks[a->fork_r]);
-	result = philo_msg(" has taken a fork\n", 18, a);
+	result = philo_msg(" has taken a fork", a);
 	my_mutex_lock(a->forks[a->fork_l]);
 	return (result);
 }
@@ -48,13 +48,13 @@ static int	philo_eat(t_thread *a)
 		release_forks(a);
 		return (1);
 	}
-	if (philo_msg(" has taken a fork\n", 18, a))
+	if (philo_msg(" has taken a fork", a))
 	{
 		release_forks(a);
 		return (1);
 	}
 	lng_set(a->s_eat_ms, a->s_eat_mtx, my_now_ms());
-	if (philo_msg(" is eating\n", 11, a))
+	if (philo_msg(" is eating", a))
 	{
 		release_forks(a);
 		return (1);
@@ -67,24 +67,15 @@ static int	philo_eat(t_thread *a)
 //if now - time started to eat last time is bigger time to die dies
 //if time started to eat minus simulation started is bigger than time
 //to die then dies
-static int	philo_actions(t_thread *a, int *morelunch)
+static int	philo_actions(t_thread *a)
 {
-	if (a->num_phi != 1)
-	{
-		if (philo_eat(a))
-			return (1);
-		if (philo_msg(" is sleeping\n", 13, a))
-			return (1);
-		usleep(1000 * a->tts);
-		if (philo_msg(" is thinking\n", 13, a))
-			return (1);
-	}
-	if (a->num_phi == 1)
-	{
-		*morelunch = 0;
-		if (philo_msg(" died\n", 6, a))
-			return (1);
-	}
+	if (philo_eat(a))
+		return (1);
+	if (philo_msg(" is sleeping", a))
+		return (1);
+	usleep(1000 * a->tts);
+	if (philo_msg(" is thinking", a))
+		return (1);
 	return (0);
 }
 
@@ -93,23 +84,37 @@ void	*philo_thread(void *arg)
 	int				lunchs;
 	int				morelunch;
 	t_thread		*t;
-	long			allborn;
-	int				mtx;
 
 	t = (t_thread *)arg;
-	mtx = t->num_phi + INITTIME;
-	my_mutex_lock(t->forks[mtx]);
-	my_mutex_unlock(t->forks[mtx]);
-	allborn = lng_get(t->allborn, t->forks[t->num_phi + ALLBORN]);
-	lng_set(t->s_eat_ms, t->s_eat_mtx, lng_get(t->sim_init_ms, t->forks[mtx]));
-	lunchs = 0;
-	morelunch = 1;
-	while (morelunch && allborn)
+	my_mutex_lock(t->forks[t->num_phi + CASUALTY]);
+	my_mutex_unlock(t->forks[t->num_phi + CASUALTY]);
+	if (t->allborn)
 	{
-		if (philo_actions(t, &morelunch))
-			return ((void *)1);
-		lunchs++;
-		morelunch = morelunch && !(t->num_lunchs == lunchs);
+		if (((t->num_phi % 2) == 1) && ((t->mynum % 2) == 1))
+			usleep(5000);
+		lunchs = 0;
+		morelunch = 1;
+		while (morelunch)
+		{
+			if (philo_actions(t))
+				return ((void *)1);
+			lunchs++;
+			morelunch = morelunch && !(t->num_lunchs == lunchs);
+		}
 	}
+	return ((void *)0);
+}
+void	*philo_thread_one(void *arg)
+{
+	t_thread		*t;
+
+	t = (t_thread *)arg;
+	my_mutex_lock(t->forks[t->num_phi + CASUALTY]);
+	my_mutex_unlock(t->forks[t->num_phi + CASUALTY]);
+	my_mutex_lock(t->forks[t->fork_r]);
+	philo_msg(" has taken a fork", t);
+	my_mutex_unlock(t->forks[t->fork_r]);
+	usleep(1000 * t->ttd);
+	philo_msg(" died", t);
 	return ((void *)0);
 }

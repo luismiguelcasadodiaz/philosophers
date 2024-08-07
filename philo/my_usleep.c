@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_usleep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:luicasad<luicasad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/06 11:46:21 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/06 11:51:39 by luicasad         ###   ########.fr       */
+/*   Created: 2024/08/07 15:16:46 by luicasad          #+#    #+#             */
+/*   Updated: 2024/08/07 15:31:27 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -17,5 +17,5 @@ void	my_usleep(int time)
 
 	now_ms = my_now_ms();
 	while (my_now_ms() - now_ms < time)
-		usleep(time / 2);
+		usleep(time / 3);
 }

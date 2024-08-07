@@ -2,12 +2,12 @@ NAME		= philo
 CC			= gcc
 WFLAG		= -Wall -Werror -Wextra
 DFLAG		= -g -fsanitize=thread -DABSOLUT=0
-#DFLAG		= -g -fsanitize=address -DABSOLUT=0
-#DFLAG		= -g 
+DFLAG		= -g -fsanitize=address -DABSOLUT=0
+DFLAG		= -g -DABSOLUT=0
 CFLAG		= $(WFLAG) $(DFLAG) -c
 LFLAG		= -fsanitize=thread -lpthread
-#LFLAG		= -fsanitize=address 
-#LFLAG		= 
+LFLAG		= -fsanitize=address 
+LFLAG		= 
 HEADER		= philo.h
 SRCS		= arg_digi.c \
 		  arg_pars.c \
@@ -45,7 +45,7 @@ $(info source files $(SRCS))
 $(info object files $(OBJS))
 
 all: $(NAME)
-	bash -c "sudo sysctl vm.mmap_rnd_bits=28"
+#	bash -c "sudo sysctl vm.mmap_rnd_bits=28"
 -include $(DEPE)
 
 %.d:%.c

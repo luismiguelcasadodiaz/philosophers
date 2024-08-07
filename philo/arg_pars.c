@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 08:56:34 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/05 13:19:37 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:14:10 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,9 @@ static void	allocate_memory_lng(t_moni *r, int *ok)
 	r->casualty = lng_create(0);
 	if (r->casualty != NULL)
 	{
-		r->sim_init_ms = lng_create(0);
-		if (r->sim_init_ms != NULL)
-		{
-			r->allborn = lng_create(0);
-			if (r->allborn != NULL)
-				*ok = 1;
-			else
-				lng_free(r->allborn);
-		}
-		else
-			lng_free(r->casualty);
+		r->sim_init_ms = 0;
+		r->allborn = 0;
+		*ok = 1;
 	}
 }
 
@@ -90,8 +82,6 @@ static t_moni	*allocate_memory(t_moni *r)
 			else
 			{
 				lng_free(r->casualty);
-				lng_free(r->allborn);
-				lng_free(r->sim_init_ms);
 			}
 		}
 		else

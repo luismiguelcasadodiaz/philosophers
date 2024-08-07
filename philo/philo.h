@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/06 11:52:47 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:58:59 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -19,16 +19,12 @@
 # include <unistd.h>
 # define FULL 1
 # define PART 0
-# define MUTEX_ADD 4
+# define MUTEX_ADD 2
 
 /* MUTEX_ADD 1   screen                                                       */
-/* MUTEX_ADD 2   screen + init_time                                           */
-/* MUTEX_ADD 3   screen + init_time + casualties                              */
-/* MUTEX_ADD 4   screen + init_time + casualties + allborn                    */
+/* MUTEX_ADD 2   screen + casualties                              */
 # define SCREEN   0
-# define INITTIME 1
-# define CASUALTY 2
-# define ALLBORN  3
+# define CASUALTY 1
 /* ABSOLUT = 1 shows fulltime stamp ABSOLUT = 0 show simulation time          */
 # ifndef ABSOLUT
 #  define ABSOLUT 1
@@ -43,9 +39,9 @@
 typedef struct s_thread
 {
 	pthread_mutex_t	**forks;
-	long			*sim_init_ms;
 	long			*casualty;
-	long			*allborn;
+	int				allborn;
+	long			sim_init_ms;
 	pthread_t		thread_id;
 	int				num_phi;
 	int				ttd;
@@ -82,9 +78,9 @@ typedef struct s_p_moni
 	int				tte;
 	int				tts;
 	int				num_lunchs;
-	long			*sim_init_ms;
+	long			sim_init_ms;
 	long			*casualty;
-	long			*allborn;
+	int				allborn;
 }	t_moni;
 
 long			*lng_create(long num);
@@ -118,8 +114,9 @@ pthread_mutex_t	**forks_create(int num);
 void			forks_free(pthread_mutex_t **forks, int num);
 int				philo_create(t_moni *moni);
 void			*philo_thread(void *arg);
+void			*philo_thread_one(void *arg);
 t_thread		**threads_create(t_moni *r);
 void			threads_free(t_thread **threads_ids, int num);
 void			threads_join(t_moni *moni);
-int				philo_msg(char *msg, int msg_len, t_thread *a);
+int				philo_msg(char *msg, t_thread *a);
 #endif

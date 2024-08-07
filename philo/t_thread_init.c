@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/06 11:43:20 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:34:02 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static void	t_thread_set_forks(t_thread *r)
 static void	t_thread_set_values(t_thread *t, t_moni *r)
 {
 	t->forks = r->forks;
-	t->sim_init_ms = r->sim_init_ms;
 	t->casualty = r->casualty;
-	t->allborn = r->allborn;
+	t->sim_init_ms = 0;
+	t->allborn = 0;
 	t->thread_id = 0;
 	t->num_phi = r->num_phi;
 	t->ttd = r->ttd;
