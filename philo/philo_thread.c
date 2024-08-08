@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:00:46 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/08 17:57:59 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:37:07 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	eat(t_thread *t)
 		philo_msg(" has taken a fork", t);
 		lng_set_t_var(t, my_now_ms());
 		philo_msg(" is eating", t);
-		usleep(1000 * t->tte);
+		my_usleep(t->tte);
 		my_mutex_unlock(t->forks[t->fork_l]);
 		my_mutex_unlock(t->forks[t->fork_r]);
 	}
@@ -34,7 +34,7 @@ void	eat(t_thread *t)
 		philo_msg(" has taken a fork", t);
 		lng_set_t_var(t, my_now_ms());
 		philo_msg(" is eating", t);
-		usleep(1000 * t->tte);
+		my_usleep(t->tte);
 		my_mutex_unlock(t->forks[t->fork_r]);
 		my_mutex_unlock(t->forks[t->fork_l]);
 	}
@@ -51,12 +51,12 @@ void	*philo_thread(void *arg)
 	if (t->allborn)
 	{
 		if ((t->mynum % 2) == 0)
-			usleep(5000);
+			my_usleep(5);
 		while (!lng_get(t->casualty, t->forks[t->num_phi + CASUALTY]))
 		{
 			eat(t);
 			philo_msg(" is sleeping", t);
-			usleep(1000 * t->tts);
+			my_usleep(t->tts);
 			philo_msg(" is thinking", t);
 		}
 	}

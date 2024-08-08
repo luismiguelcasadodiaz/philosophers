@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/08 14:23:24 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:09:11 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -112,7 +112,7 @@ int				arg_digits(char	*arg);
 int				arg_range_int(char *arg, int *my_int);
 int				my_mutex_lock(pthread_mutex_t	*alarm_mutex);
 int				my_mutex_unlock(pthread_mutex_t	*alarm_mutex);
-int				my_th_create(pthread_t *t, void *(*f)(void *), t_thread *arg);
+int				my_th_create(pthread_t *t, void *(*f)(void *), void *arg);
 int				my_th_detach(pthread_t *t);
 int				my_th_join(pthread_t t);
 pthread_mutex_t	**forks_create(int num);
@@ -124,4 +124,5 @@ t_thread		**threads_create(t_moni *r);
 void			threads_free(t_thread **threads_ids, int num);
 void			threads_join(t_moni *moni);
 int				philo_msg(char *msg, t_thread *a);
+void			*monitor_thread(void *arg);
 #endif

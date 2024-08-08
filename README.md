@@ -41,7 +41,7 @@ philosopher dies.</ol>
 |libc.h|malloc|Allocates memory|
 |libc.h|free|Frees the memory space pointed to by a pointer |
 |history.h|write|writes to a file descripto. It is faster than printf.|
-|readline.h|usleep|Suspends execution of the calling thread for some microseconds|
+|readline.h|usleep|Suspends execution of the calling thread for (at least) some microseconds|
 |readline.h|gettimeofday|gives the number of seconds and microseconds since Epoch. I convert into milliseconds for this project.|
 |readline.h|pthread_create||
 |readline.h|pthread_detach||

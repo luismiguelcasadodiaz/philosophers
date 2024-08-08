@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:42:43 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/08 15:56:11 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:10:27 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	philo_create_alone(t_moni *r)
 	return (0);
 }
 
-int	philo_create(t_moni *m)
+static int	philo_create_aux(t_moni *m)
 {
 	my_mutex_lock(m->forks[(m->num_phi + CASUALTY)]);
 	if (m->num_phi == 1)
@@ -75,5 +75,16 @@ int	philo_create(t_moni *m)
 	m->allborn = 1;
 	philo_set_allborn_and_sim_init(m);
 	my_mutex_unlock(m->forks[(m->num_phi + CASUALTY)]);
+	return (0);
+}
+int philo_create(t_moni *m)
+{
+	t_thread	*t;
+
+	if (philo_create_aux(m))
+		return (1);
+	t = m->threads[0];
+	if (my_th_create(&t->thread_id, monitor_thread, m))
+		return (1);
 	return (0);
 }
