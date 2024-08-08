@@ -22,10 +22,12 @@ set detach-on-fork off
 #set scheduler-locking on
 # Set Breakpoint at main function
 break main
+# Set Conditional breakpoint
+break arg_pars.c:54 if i == 5
 # Set other breakpoint
 #break my_thread_join.c:20
-break philo.c:37
+#break philo.c:37
 #break philo_thread.c:86
 #break philo_thread.c:106
 # set alias
-run 4 310 200 100 3
+run 4 800 200 200 5

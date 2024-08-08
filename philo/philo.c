@@ -6,35 +6,56 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:09:07 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 18:17:42 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:35:29 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-static void	monitor(t_moni *m)
+static int	iamdead(t_thread *t, int *my_lunchs)
 {
-	int		i;
-	int		died;		
 	long	now_ms;
 	long	ate;
-	int		lunchs;
 
-	died = 0;
-	while (!died)
+	lng_get_t_var(t, &ate, my_lunchs);
+	now_ms = my_now_ms();
+	if ((now_ms - ate) > t->ttd)
 	{
-		i = 1;
-		while (i <= m->num_phi && !died)
-		{
-			lng_get_t_var(m->threads[i], &ate, &lunchs);
-			now_ms = my_now_ms();
-			if (ate != 0 && (lunchs >= 0) && (now_ms - ate) > 6 * m->ttd)
-			{
-				philo_msg(" died\n", m->threads[i]);
-				died = 1;
-			}
-			i++;
-		}
+		philo_msg(" died", t);
+		lng_set(t->casualty, t->forks[t->num_phi + CASUALTY], 1);
+		return (1);
 	}
+	return (0);
+}
+
+static int	shall_i_stop(t_moni *m)
+{
+	int	i;
+	int	my_lunchs;
+	int	philo_all_eaten;
+
+	i = 1;
+	philo_all_eaten = 0;
+	while (i <= m->num_phi)
+	{
+		if (iamdead(m->threads[i], &my_lunchs))
+			return (1);
+		if (m->num_lunchs != -1 && my_lunchs >= m->num_lunchs)
+			philo_all_eaten++;
+		i++;
+	}
+	if (philo_all_eaten == m->num_phi)
+	{
+		lng_set(m->casualty, m->forks[m->num_phi + CASUALTY], 1);
+		return (1);
+	}
+	else
+		return (0);
+}
+
+static void	monitor(t_moni *m)
+{
+	while (!shall_i_stop(m))
+		;
 }
 
 int	main(int argc, char	**argv)

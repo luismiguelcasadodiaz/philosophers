@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 15:22:09 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:54:17 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_moni	*t_moni_init(void)
 	r->ttd = 0;
 	r->tte = 0;
 	r->tts = 0;
-	r->num_lunchs = 0;
+	r->num_lunchs = -1;
 	r->sim_init_ms = 0;
 	r->casualty = NULL;
 	r->allborn = 0;
@@ -44,7 +44,7 @@ void	t_moni_free(t_moni *r, int full)
 	if (full)
 	{
 		forks_free(r->forks, (r->num_phi));
-		lng_free(r->casualty);
+		free(r->casualty);
 	}
 	else
 	{

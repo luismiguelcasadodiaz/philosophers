@@ -34,6 +34,7 @@ SRCS		= arg_digi.c \
 		  threads_join.c \
 		  philo_creation.c \
 		  philo_thread.c \
+		  philo_thread_one.c \
 		  philo_msg.c \
 		  philo.c
 		  #arg_seen.c \

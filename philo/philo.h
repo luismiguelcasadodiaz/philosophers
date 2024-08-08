@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:32:15 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 17:51:52 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 14:23:24 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -48,6 +48,8 @@ typedef struct s_thread
 	int				tte;
 	int				tts;
 	int				num_lunchs;
+	int				my_lunchs;
+	int				eating;
 	int				mynum;
 	int				fork_l;
 	int				fork_r;
@@ -91,6 +93,7 @@ void			lng_set_t_var(t_thread *t, long num);
 void			lng_get_t_var(t_thread *t, long *s_eat_ms, int *num_lunchs);
 t_thread		*t_thread_init(int num, t_moni *r);
 void			t_thread_free(t_thread *r);
+void			t_thread_show(t_thread *r);
 t_moni			*t_moni_init(void);
 void			t_moni_free(t_moni *r, int full);
 void			t_moni_set(t_moni *r, int i, int num);

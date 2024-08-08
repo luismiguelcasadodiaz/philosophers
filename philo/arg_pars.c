@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 08:56:34 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 14:14:10 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:54:38 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_moni	*allocate_memory(t_moni *r)
 				return (r);
 			else
 			{
-				lng_free(r->casualty);
+				free(r->casualty);
 			}
 		}
 		else

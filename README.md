@@ -134,3 +134,8 @@ They need to collaborate instead of compete for the forks, so they start blockin
 
 # Sources of information
 Programming with POSIX threads. David R. Butenhof (https://www.amazon.es/Programming-Threads-Addison-Wesley-Professional-Computing-ebook/dp/B006QTHCJ6)
+
+
+With Sanitize Thread Execution time in ms: 8228
+With Sanitize Address Execution time in ms: 8220
+Without Sanitize Execution time in ms: 8211

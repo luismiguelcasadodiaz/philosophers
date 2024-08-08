@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 17:25:56 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:53:51 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,11 @@
 /* ************************************************************************** */
 static void	t_thread_set_forks(t_thread *r)
 {
-	if ((r->mynum % 2) == 0)
-	{
-		r->fork_r = r->mynum;
-		if (r->mynum == r->num_phi)
-			r->fork_l = 1;
-		else
-			r->fork_l = r->mynum + 1;
-	}
+	r->fork_l = r->mynum;
+	if (r->mynum == r->num_phi)
+		r->fork_r = 1;
 	else
-	{
-		r->fork_l = r->mynum;
-		if (r->mynum == r->num_phi)
-			r->fork_r = 1;
-		else
-			r->fork_r = r->mynum + 1;
-	}
+		r->fork_r = r->mynum + 1;
 }
 
 static void	t_thread_set_values(t_thread *t, t_moni *r)
@@ -48,6 +37,8 @@ static void	t_thread_set_values(t_thread *t, t_moni *r)
 	t->tte = r->tte;
 	t->tts = r->tts;
 	t->num_lunchs = r->num_lunchs;
+	t->my_lunchs = 0;
+	t->eating = 0;
 }
 
 /* ************************************************************************** */
@@ -88,7 +79,7 @@ void	t_thread_free(t_thread *t)
 {
 	pthread_mutex_destroy(t->s_eat_mtx);
 	free(t->s_eat_mtx);
-	lng_free(t->s_eat_ms);
+	free(t->s_eat_ms);
 	free(t);
 }
 
@@ -97,6 +88,8 @@ void	t_thread_free(t_thread *t)
 /* ************************************************************************** */
 void	t_thread_show(t_thread *r)
 {
+	my_mutex_lock(r->forks[SCREEN]);
+	printf("-------------------------\n");
 	printf("r->num_phi    = %d\n", r->num_phi);
 	printf("r->ttd        = %d\n", r->ttd);
 	printf("r->tte        = %d\n", r->tte);
@@ -105,4 +98,6 @@ void	t_thread_show(t_thread *r)
 	printf("r->mynum      = %d\n", r->mynum);
 	printf("r->fork_r     = %d\n", r->fork_r);
 	printf("r->fork_l     = %d\n", r->fork_l);
+	printf("-------------------------\n");
+	my_mutex_unlock(r->forks[SCREEN]);
 }

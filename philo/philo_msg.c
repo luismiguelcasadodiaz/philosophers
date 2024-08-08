@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:12:32 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/07 15:15:33 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 08:56:55 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -29,14 +29,8 @@ static long	make_timestamp(long sim_init_ms)
 int	philo_msg(char *msg, t_thread *a)
 {
 	my_mutex_lock(a->forks[SCREEN]);
-	if (lng_get(a->casualty, a->forks[a->num_phi + CASUALTY]))
-	{
-		my_mutex_unlock(a->forks[SCREEN]);
-		return (1);
-	}
-	if (msg[1] == 'd')
-		lng_set(a->casualty, a->forks[a->num_phi + CASUALTY], 1);
-	printf("%ld %d%s\n", make_timestamp(a->sim_init_ms), a->mynum, msg);
+	if (!lng_get(a->casualty, a->forks[a->num_phi + CASUALTY]))
+		printf("%ld %d%s\n", make_timestamp(a->sim_init_ms), a->mynum, msg);
 	my_mutex_unlock(a->forks[SCREEN]);
 	return (0);
 }
