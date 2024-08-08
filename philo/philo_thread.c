@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:00:46 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/08 16:31:47 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:57:59 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ void	*philo_thread(void *arg)
 	t = (t_thread *)arg;
 	my_mutex_lock(t->forks[t->num_phi + CASUALTY]);
 	my_mutex_unlock(t->forks[t->num_phi + CASUALTY]);
+	//t_thread_show(t);
 	if (t->allborn)
 	{
 		if ((t->mynum % 2) == 0)
-			usleep(1000);
+			usleep(5000);
 		while (!lng_get(t->casualty, t->forks[t->num_phi + CASUALTY]))
 		{
 			eat(t);
