@@ -6,34 +6,34 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:39:10 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/28 18:42:31 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/06 09:23:27 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-pthread_t	**threads_create(int num)
+t_thread	**threads_create(t_moni *r)
 {
-	int				i;
-	int				n;
-	pthread_t		**thread_ids;
+	int			i;
+	int			n;
+	t_thread	**threads;
 
-	n = num + 1;
-	thread_ids = (pthread_t **)malloc(n * sizeof(pthread_t *));
-	if (thread_ids == NULL)
+	n = r->num_phi + 1;
+	threads = (t_thread **)malloc(n * sizeof(t_thread *));
+	if (threads == NULL)
 		return (NULL);
 	i = 0;
 	while (i < n)
 	{
-		thread_ids[i] = (pthread_t *)malloc(sizeof(pthread_t));
-		if (thread_ids[i] == NULL)
+		threads[i] = t_thread_init(i, r);
+		if (threads[i] == NULL)
 		{
 			while (--i >= 0)
-				free(thread_ids[i]);
-			free(thread_ids);
+				t_thread_free(threads[i]);
+			free(threads);
 			return (NULL);
 		}
-		*thread_ids[i] = 0;
+		threads[i]->thread_id = 0;
 		i++;
 	}
-	return (thread_ids);
+	return (threads);
 }

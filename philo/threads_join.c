@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   threads_join.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:09:07 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/09 09:42:19 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:15:58 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-int	main(int argc, char	**argv)
+//loops thread_ids array, joinign only existing (!= 0) threads
+void	threads_join(t_moni *moni)
 {
-	t_moni	*m;
+	int				i;
 
-	if ((argc < 5) || (argc > 6))
-		return (printf("Invalid argument number.\n"));
-	m = arg_ok(argc, argv);
-	if (!m)
-		return (printf("Not positive arguments for an integer type.\n"));
-	if (philo_create(m))
+	i = -1;
+	while (++i <= moni->num_phi)
 	{
-		threads_join(m);
-		return (printf("System does not give me resources to simulate\n"));
+		if (moni->threads[i]->thread_id != 0)
+		{
+			my_th_join(moni->threads[i]->thread_id);
+			t_thread_free(moni->threads[i]);
+		}
+		else
+			t_thread_free(moni->threads[i]);
 	}
-	threads_join(m);
-	return (0);
+	free(moni->threads);
+	t_moni_free(moni, FULL);
 }

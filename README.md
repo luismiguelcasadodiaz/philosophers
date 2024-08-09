@@ -41,7 +41,7 @@ philosopher dies.</ol>
 |libc.h|malloc|Allocates memory|
 |libc.h|free|Frees the memory space pointed to by a pointer |
 |history.h|write|writes to a file descripto. It is faster than printf.|
-|readline.h|usleep|Suspends execution of the calling thread for some microseconds|
+|readline.h|usleep|Suspends execution of the calling thread for (at least) some microseconds|
 |readline.h|gettimeofday|gives the number of seconds and microseconds since Epoch. I convert into milliseconds for this project.|
 |readline.h|pthread_create||
 |readline.h|pthread_detach||
@@ -134,3 +134,8 @@ They need to collaborate instead of compete for the forks, so they start blockin
 
 # Sources of information
 Programming with POSIX threads. David R. Butenhof (https://www.amazon.es/Programming-Threads-Addison-Wesley-Professional-Computing-ebook/dp/B006QTHCJ6)
+
+
+With Sanitize Thread Execution time in ms: 8228
+With Sanitize Address Execution time in ms: 8220
+Without Sanitize Execution time in ms: 8211

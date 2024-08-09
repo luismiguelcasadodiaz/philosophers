@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:11:25 by luicasad          #+#    #+#             */
-/*   Updated: 2024/07/28 19:19:34 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:54:17 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,45 +24,15 @@ t_moni	*t_moni_init(void)
 	if (!r)
 		return (NULL);
 	r->forks = NULL;
-	r->thread_ids = NULL;
+	r->threads = NULL;
 	r->num_phi = 0;
 	r->ttd = 0;
 	r->tte = 0;
 	r->tts = 0;
-	r->num_lunchs = 0;
-	r->sim_init_ms = NULL;
+	r->num_lunchs = -1;
+	r->sim_init_ms = 0;
 	r->casualty = NULL;
-	r->mynum = 0;
-	r->fork_r = 0;
-	r->fork_l = 0;
-	return (r);
-}
-
-/* ************************************************************************** */
-/* t_moni_copy_set() creates a copy of monitoring structure adapting it for   */
-/* the philosoper defined by mynum.                                           */
-/* the CLI arguments in ori are transfered to the new structure.              */
-/* ************************************************************************** */
-t_moni	*t_moni_copy_set(int mynum, t_moni *ori)
-{
-	t_moni	*r;
-
-	r = t_moni_init();
-	r->forks = ori->forks;
-	r->thread_ids = ori->thread_ids;
-	r->num_phi = ori->num_phi;
-	r->ttd = ori->ttd;
-	r->tte = ori->tte;
-	r->tts = ori->tts;
-	r->num_lunchs = ori->num_lunchs;
-	r->sim_init_ms = ori->sim_init_ms;
-	r->casualty = ori->casualty;
-	r->mynum = mynum;
-	r->fork_l = mynum;
-	if (mynum == ori->num_phi)
-		r->fork_r = 1;
-	else
-		r->fork_r = mynum + 1;
+	r->allborn = 0;
 	return (r);
 }
 
@@ -74,25 +44,21 @@ void	t_moni_free(t_moni *r, int full)
 	if (full)
 	{
 		forks_free(r->forks, (r->num_phi));
-		threads_free(r->thread_ids, r->num_phi);
-		lng_free(r->casualty);
-		lng_free(r->sim_init_ms);
+		free(r->casualty);
 	}
 	else
 	{
 		r->forks = NULL;
-		r->thread_ids = NULL;
+		r->threads = NULL;
 		r->casualty = NULL;
-		r->sim_init_ms = NULL;
 	}
 	r->num_phi = 0;
 	r->ttd = 0;
 	r->tte = 0;
 	r->tts = 0;
 	r->num_lunchs = 0;
-	r->mynum = 0;
-	r->fork_r = 0;
-	r->fork_l = 0;
+	r->allborn = 0;
+	r->sim_init_ms = 0;
 	free(r);
 }
 
@@ -123,10 +89,6 @@ void	t_moni_show(t_moni *r)
 	printf("r->tte        = %d\n", r->tte);
 	printf("r->tts        = %d\n", r->tts);
 	printf("r->num_lunchs = %d\n", r->num_lunchs);
-	printf("r->mynum      = %d\n", r->mynum);
-	printf("r->mynum      = %d\n", r->mynum);
 	printf("r->casualty   = %ld\n", *r->casualty);
-	printf("r->thread_id  = %d\n", (int)*r->thread_ids[r->mynum]);
-	printf("r->fork_r     = %d\n", r->fork_r);
-	printf("r->fork_l     = %d\n", r->fork_l);
+	printf("r->allborn   = %d\n", r->allborn);
 }

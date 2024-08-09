@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_thread_create.c                                 :+:      :+:    :+:   */
+/*   my_usleep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 19:18:55 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/08 19:09:13 by luicasad         ###   ########.fr       */
+/*   Created: 2024/08/07 15:16:46 by luicasad          #+#    #+#             */
+/*   Updated: 2024/08/08 19:34:37 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "philo.h"
 
-int	my_th_create(pthread_t *t, void *(*f)(void *), void *arg)
+void	my_usleep(int time)
 {
-	int			s;
+	long	now0_ms;
+	long	now1_ms;
 
-	s = pthread_create(t, NULL, (*f), (void *)arg);
-	if (s != 0)
+	now0_ms = my_now_ms();
+	now1_ms = my_now_ms();
+	while ((now1_ms - now0_ms) < time)
 	{
-		printf("Create thread<%s:%d> %s\n", __FILE__, __LINE__, strerror (s));
-		*t = 0;
-		return (1);
+		usleep(500);
+		now1_ms = my_now_ms();
 	}
-	return (0);
 }
