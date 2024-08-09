@@ -6,7 +6,7 @@
 /*   By: luicasad <luicasad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:42:43 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/08 19:10:27 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/09 09:42:03 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ static int	philo_create_aux(t_moni *m)
 	my_mutex_unlock(m->forks[(m->num_phi + CASUALTY)]);
 	return (0);
 }
-int philo_create(t_moni *m)
+
+int	philo_create(t_moni *m)
 {
 	t_thread	*t;
 

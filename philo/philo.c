@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:09:07 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/08 19:03:59 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/09 09:42:19 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -25,7 +25,6 @@ int	main(int argc, char	**argv)
 		threads_join(m);
 		return (printf("System does not give me resources to simulate\n"));
 	}
-	//monitor(m);
 	threads_join(m);
 	return (0);
 }

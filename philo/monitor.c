@@ -6,7 +6,7 @@
 /*   By: luicasad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:47:58 by luicasad          #+#    #+#             */
-/*   Updated: 2024/08/08 19:11:14 by luicasad         ###   ########.fr       */
+/*   Updated: 2024/08/09 10:24:48 by luicasad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ static int	shall_i_stop(t_moni *m)
 
 void	*monitor_thread(void *arg)
 {
-	t_moni *m;
+	t_moni	*m;
 
-	m=(t_moni *)arg;
+	m = (t_moni *)arg;
 	while (!shall_i_stop(m))
-		usleep(1000);
+		my_usleep(6);
 	return (arg);
 }
