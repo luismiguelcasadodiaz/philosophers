@@ -198,4 +198,13 @@ With this in mind...
 ```
 i started the project.
 
-Having problems keeping alive one philosoher while executing ```./philo 5 800 200 200```, i started to 
+Having problems keeping alive one philosoher while executing ```./philo 5 800 200 200```, i started to scratch my head.
+I change such code por a regular printf()
+
+```c
+	printf("%ld %d%s\n", make_timestamp(*a->sim_init_ms), a->mynum, msg);
+```
+
+ft_itoa allocates memory to free. my ft_itoa is recursive...
+
+the conclusion was that on average printing 100 000 times a simple message with the write version took 515 ms while using printf version took 275 ms.
