@@ -1,6 +1,8 @@
 # philosophers
 In this project, you will learn the basics of threading a process. You will see how to create threads and you will discover mutexes.
 
+Additionally you will learn about optimize your code to gain some milisecons.
+
 # Overview
 Here are the things you need to know if you want to succeed in this assignment:
 • One or more philosophers sit at a round table. There is a large bowl of spaghetti in the middle of the table.<br>
@@ -135,7 +137,65 @@ They need to collaborate instead of compete for the forks, so they start blockin
 # Sources of information
 Programming with POSIX threads. David R. Butenhof (https://www.amazon.es/Programming-Threads-Addison-Wesley-Professional-Computing-ebook/dp/B006QTHCJ6)
 
+# Sanitizer overhead
+
+I compared the performance of ./philo 4 800 200 200 20 of three different executables.
+I got this result:
 
 With Sanitize Thread Execution time in ms: 8228
 With Sanitize Address Execution time in ms: 8220
 Without Sanitize Execution time in ms: 8211
+
+
+
+cat /proc/sys/kernel/sched_rr_timeslice_ms 
+100
+ % cat /proc/sys/kernel/threads-max
+61611
+ % cat /proc/sys/kernel/sched_rt_period_us 
+1000000
+luicasad@car1s3 ~/Documents/cursus/circle4/namada_minshell
+ % cat /proc/sys/kernel/sched_rt_runtime_us 
+950000
+/proc/sys/kernel/sched_rt_period_us
+This parameter defines the time period, in microseconds, that is considered to be one hundred percent of the processor bandwidth. The default value is 1000000 μs, or 1 second.
+/proc/sys/kernel/sched_rt_runtime_us
+This parameter defines the time period, in microseconds, that is devoted to running real-time threads. The default value is 950000 μs, or 0.95 seconds.
+
+##gdb usage to debug threds.
+It is possible to debug threads.
+In my philosopher project all thread wait for a green light (mutex unlock) to start.
+I set  defined a breakpoint in my .gdbinit file to stop main program before unlocking the green light.
+At this point with ```set scheduler-locking on``` I stop system scheduler.
+```info threads``` show me all threads.
+``` thread n``` switch me to thread n. 
+
+In this way i execute step by step each thread individually.
+
+## write vs printf
+I started this project considering that would be faster using write() to display simple messages
+
+```bash
+100 2 is eating
+200 1 is thinking
+201 2 is sleeping
+201 1 has taken a fork
+201 1 has taken a fork
+201 1 is eating
+301 2 is thinking
+```
+made only of two integers and short string.
+
+With this in mind...
+```c
+	ms = ft_itoa(make_timestamp(*a->sim_init_ms), &ms_len);
+	me = ft_itoa(a->mynum, &me_len);
+	write(1, &ms, ms_len);
+	write(1, me, me_len);
+	write(1, msg, msg_len);
+	free(me);
+	free(ms);
+```
+i started the project.
+
+Having problems keeping alive one philosoher while executing ```./philo 5 800 200 200```, i started to 
