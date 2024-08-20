@@ -143,11 +143,13 @@ I compared the performance of ./philo 4 800 200 200 20 of three different execut
 I got this result:
 
 With Sanitize Thread Execution time in ms: 8228
+
 With Sanitize Address Execution time in ms: 8220
+
 Without Sanitize Execution time in ms: 8211
 
 
-
+```bash
 cat /proc/sys/kernel/sched_rr_timeslice_ms 
 100
  % cat /proc/sys/kernel/threads-max
@@ -161,8 +163,9 @@ luicasad@car1s3 ~/Documents/cursus/circle4/namada_minshell
 This parameter defines the time period, in microseconds, that is considered to be one hundred percent of the processor bandwidth. The default value is 1000000 μs, or 1 second.
 /proc/sys/kernel/sched_rt_runtime_us
 This parameter defines the time period, in microseconds, that is devoted to running real-time threads. The default value is 950000 μs, or 0.95 seconds.
+``
 
-##gdb usage to debug threds.
+## gdb usage to debug threds.
 It is possible to debug threads.
 In my philosopher project all thread wait for a green light (mutex unlock) to start.
 I set  defined a breakpoint in my .gdbinit file to stop main program before unlocking the green light.
