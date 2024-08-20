@@ -203,6 +203,9 @@ int	main(void)
 
 I got the evidence of more accuracy wiht my_usleep() than with usleep().
 
+![imagen](https://github.com/user-attachments/assets/72ba7544-07f4-47e1-acb4-3121e54d5b49)
+
+
 
 # Sources of information
 Programming with POSIX threads. David R. Butenhof (https://www.amazon.es/Programming-Threads-Addison-Wesley-Professional-Computing-ebook/dp/B006QTHCJ6)
