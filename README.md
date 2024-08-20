@@ -53,32 +53,6 @@ philosopher dies.</ol>
 |pthread.h|pthread_mutex_lock||
 |pthread.h|pthread_mutex_unlock||
 
-### Allowed functions in bonus project
-
-
-
-
-|Library|Function|Description|
-|-------|-----|-------------------------------------------------------------------------------------|
-|dirent.h|memset||
-|dirent.h|printf||
-|dirent.h|malloc||
-|fcntl.h|free|The open() system call opens/creates the file specified by pathname in read/write mode if currente permission allow it. I used it with file1 and file2. <br> O_CLOEXEC Enable  the  close‐on‐exec  flag for the new file descriptor. It is essential in some multithreaded programs to avoid race conditions where one thread opens a file descriptor and attempts to set its close‐on‐exec flag using fcntl(2) at the same  time  as  another  thread  does  a fork(2)  plus execve(2).  Depending on the order of execution, the race may lead to the file descriptor returned by open() being unintentionally leaked to the program executed by the child process created by fork(2). |
-|unistd.h|write||
-|unistd.h|fork||
-|signal.h|kill||
-|unistd.h|exit||
-|sys/wait.h|waitpid||
-|unistd.h|usleep||
-|sys/time.h|gettimeofday||
-|pthread.h|pthread_create||
-|pthread.h|pthread_detach||
-|pthread.h|pthread_join||
-|pthread.h|pthread_sem_open||
-|pthread.h|pthread_sem_close||
-|pthread.h|pthread_sem_post||
-|pthread.h|pthread_sem_wait||
-|pthread.h|pthread_sem_unlink||
 
 
 # Data structure
@@ -139,31 +113,17 @@ Programming with POSIX threads. David R. Butenhof (https://www.amazon.es/Program
 
 # Sanitizer overhead
 
-I compared the performance of ./philo 4 800 200 200 20 of three different executables.
+I compared the performance of ./philo 4 800 200 200 20 with three different executables.
 I got this result:
 
-With Sanitize Thread Execution time in ms: 8228
+With Sanitize Thread Execution time in ms: 8228.
 
-With Sanitize Address Execution time in ms: 8220
+With Sanitize Address Execution time in ms: 8220.
 
-Without Sanitize Execution time in ms: 8211
+Without Sanitize Execution time in ms: 8211.
 
+I concluded that Sanitize adds some overhead, but it was not really impacting my philo proyect performance
 
-```bash
-cat /proc/sys/kernel/sched_rr_timeslice_ms 
-100
- % cat /proc/sys/kernel/threads-max
-61611
- % cat /proc/sys/kernel/sched_rt_period_us 
-1000000
-luicasad@car1s3 ~/Documents/cursus/circle4/namada_minshell
- % cat /proc/sys/kernel/sched_rt_runtime_us 
-950000
-/proc/sys/kernel/sched_rt_period_us
-This parameter defines the time period, in microseconds, that is considered to be one hundred percent of the processor bandwidth. The default value is 1000000 μs, or 1 second.
-/proc/sys/kernel/sched_rt_runtime_us
-This parameter defines the time period, in microseconds, that is devoted to running real-time threads. The default value is 950000 μs, or 0.95 seconds.
-```
 
 ## gdb usage to debug threds.
 It is possible to debug threads.
@@ -221,3 +181,24 @@ I change such code por a regular printf()
 ft_itoa allocates memory to free. my ft_itoa is recursive...
 
 The conclusion was that on average printing 100 000 times a simple message with the write version took 515 ms while using printf version took 275 ms.
+
+## Other considerations
+
+You can check some curent parameters form kernel scheduler.
+
+```bash
+cat /proc/sys/kernel/sched_rr_timeslice_ms 
+100
+ % cat /proc/sys/kernel/threads-max
+61611
+ % cat /proc/sys/kernel/sched_rt_period_us 
+1000000
+ % cat /proc/sys/kernel/sched_rt_runtime_us 
+950000
+```
+/proc/sys/kernel/sched_rt_period_us
+This parameter defines the time period, in microseconds, that is considered to be one hundred percent of the processor bandwidth. The default value is 1000000 μs, or 1 second.
+
+/proc/sys/kernel/sched_rt_runtime_us
+This parameter defines the time period, in microseconds, that is devoted to running real-time threads. The default value is 950000 μs, or 0.95 seconds.
+```
