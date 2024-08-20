@@ -27,15 +27,10 @@ long	my_now_ms(void)
 void	my_usleep(int time)
 {
 	long	now0_ms;
-	long	now1_ms;
 
 	now0_ms = my_now_ms();
-	now1_ms = my_now_ms();
-	while ((now1_ms - now0_ms) < time)
-	{
+	while ((my_now_ms() - now0_ms) < time)
 		usleep(100);
-		now1_ms = my_now_ms();
-	}
 }
 int	main(void)
 {

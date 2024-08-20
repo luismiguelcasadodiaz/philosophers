@@ -55,49 +55,93 @@ philosopher dies.</ol>
 
 
 
-# Data structure
+# Data structures
+
+## There is a general data structure
+
 ```c
 typedef struct s_p_moni
 {
 	pthread_mutex_t	**forks;
-	pthread_t	**thread_ids;
-	int		num_phi;
-	int		ttd;
-	int		tte;
-	int		tts;
-	int		num_lunchs;
-	long		*sim_init_ms;
-	int		*casualty;
-	int		mynum;
-	pthread_t	mythread_id;
-	int		fork_l;
-	int		fork_r;
-
+	t_thread		**threads;
+	int				num_phi;
+	int				ttd;
+	int				tte;
+	int				tts;
+	int				num_lunchs;
+	long			sim_init_ms;
+	long			*casualty;
+	int				allborn;
 }	t_moni;
 
 /* ************************************************************************** */
-/* t_moni_set() helper function to test a CLI argument in the right field      */
+/* t_moni_set() helper funcion to test a CLI argument in the right field      */
 /* forks       Holds a pointer to all available mutexes                       */
-/* threads_ids Holds a pointer to all available threads identifications        */
+/* threads     Holds a pointer to all available threads identificators        */
 /* num_phi     Holds CLI number of philosophers to simulate                   */
 /* ttd         Holds CLI time to die since the beginning of the last meal     */
 /*             or the beginning of the simulation                             */
 /* tte         Holds CLI time to eat                                          */
 /* tts         Holds CLI time to sleep                                        */
 /* num_lunchs  Holds CLI optional number of times must eat.                   */
-/* sim_ini_ms  Holds a pointer to a timestamp for simulation initiation      */
-/* casualty    Holds a pointer to a flag reporting if any Philo died          */
+/* sim_ini_ms  Holds a pointer to a time stamp for simulation initiation      */
+/* casualty    Holds a pointer to a flag reporting if any philo died          */
+/* allborn     Holds a pointer to a flag reporting if all num_phi were born   */
+/* ************************************************************************** */
+
+
+```
+
+## There is a data structure for each individual thread representing a philosoper.
+```c
+typedef struct s_thread
+{
+	pthread_mutex_t	**forks;
+	long			*casualty;
+	int				allborn;
+	long			sim_init_ms;
+	pthread_t		thread_id;
+	int				num_phi;
+	int				ttd;
+	int				tte;
+	int				tts;
+	int				num_lunchs;
+	int				my_lunchs;
+	int				eating;
+	int				mynum;
+	int				fork_l;
+	int				fork_r;
+	long			*s_eat_ms;
+	pthread_mutex_t	*s_eat_mtx;
+}	t_thread;
+
+
+/* ************************************************************************** */
+/* forks       Holds a pointer to all available mutexes                       */
+/* casualty    Holds a pointer to a flag reporting if any philo died          */
+/* allborn     Holds a pointer to a flag reporting if all num_phi were born   */
+/* sim_ini_ms  Holds a pointer to a time stamp for simulation initiation      */
+/* thread_id   Holds the thread identificator                                 */
+/* num_phi     Holds CLI number of philosophers to simulate                   */
+/* ttd         Holds CLI time to die since the beginning of the last meal     */
+/*             or the beginning of the simulation                             */
+/* tte         Holds CLI time to eat                                          */
+/* tts         Holds CLI time to sleep                                        */
+/* num_lunchs  Holds CLI optional number of times must eat.                   */
+/* my_lunchs   Holds number of lunch eaten by this philosoper                 */
+/* eating      Flag indicating the philosoper is eating now (not used)        */
 /* mynum       Holds the number of this philosopher                           */
 /* fork_l      Holds fork number to use with left hand                        */
 /* fork_r      Holds fork number to use with right hand                       */
+/* s_eat_ms    Holds last time this philosoher started to eat                 */
+/* s_eat_mtx   THis muttex prevents data races for this previous information  */
 /* ************************************************************************** */
-
 ```
 Philosophers get numbers from 1 to num_phi that are stored in mynum. Each Philosopher has a fork for the left hand. The left hand's fork has the same number as the philosopher. The right fork is mynum + 1 for all philosophers but philosopher num_phi, whose right-hand fork is the number one.
 
 ![image](https://github.com/user-attachments/assets/a5e028c6-1d6a-40bb-8437-4de2c58647ae)
 
-As forks is an array of mutexes, fork[0] is reserved to synchronize screen output. fork[1]..fork[num_phi] are mutexes for forks. fork[num_phi + 1] will sincronize the start. Fork[num_phi + 2] will protect the write/read of the casualty variable.
+As forks is an array of mutexes, fork[0] is reserved to synchronize screen output. fork[1]..fork[num_phi] are mutexes for forks. fork[num_phi + 1]  will protect the write/read of the casualty variable.
 
 memory allocation for Forks and thread_ids is done once arg_ok validates command line arguments.
 
@@ -106,7 +150,59 @@ It is worth paying attention to the special case of two philosophers:
 
 ![image](https://github.com/user-attachments/assets/443de854-48db-4833-8928-7aaec58e84ec)
 
-They need to collaborate instead of compete for the forks, so they start blocking the fork with the smaller number.
+They need to collaborate instead of compete for the forks, so they start blocking the fork with the smaller number. That translated in a rule such as the odd philosopers tries to lock the left hand fork and even philosopher tries to lock the right hand fork.
+
+
+# usleep vs my_usleep.
+
+Despite it is clearly stated in ``` man usleep ```, a out of the blue, thanks to a 42 mate, i became aware of the word *at least* related with the functionality of such function.
+
+I created a naive device to measure the *accuracy* of usleep() in microseconds and compare it with the one of my_usleep()
+
+```c  
+long	my_now_ms(void)
+{
+	struct timeval	s;
+	long			ms;
+
+	gettimeofday(&s, NULL);
+	ms = (s.tv_sec * 1000) + (s.tv_usec / 1000);
+	return (ms);
+}
+
+void	my_usleep(int time)
+{
+	long	now0_ms;
+
+	now0_ms = my_now_ms();
+	while ((my_now_ms() - now0_ms) < time)
+		usleep(100);
+		//usleep(250);
+		//usleep(500);
+}
+int	main(void)
+{
+	struct timeval		s;
+	struct timeval		e;
+	int			i;
+	long			e_usec;
+
+	i = 0;
+	while (++i <= 200)
+	{
+		gettimeofday(&s, NULL);
+		my_usleep(1000);
+        //usleep(1000)
+		gettimeofday(&e, NULL);
+		e_usec = (e.tv_sec - s.tv_sec) * 1000000 + (e.tv_usec - s.tv_usec);
+		printf("%ld\n", e_usec);
+	}
+	return (0);
+}
+```
+
+I got the evidence of more accuracy wiht my_usleep() than with usleep().
+
 
 # Sources of information
 Programming with POSIX threads. David R. Butenhof (https://www.amazon.es/Programming-Threads-Addison-Wesley-Professional-Computing-ebook/dp/B006QTHCJ6)

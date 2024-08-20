@@ -31,10 +31,24 @@
 # endif
 
 /* ************************************************************************** */
-/* threads_ids Holds the thread identificator                                 */
+/* forks       Holds a pointer to all available mutexes                       */
+/* casualty    Holds a pointer to a flag reporting if any philo died          */
+/* allborn     Holds a pointer to a flag reporting if all num_phi were born   */
+/* sim_ini_ms  Holds a pointer to a time stamp for simulation initiation      */
+/* thread_id   Holds the thread identificator                                 */
+/* num_phi     Holds CLI number of philosophers to simulate                   */
+/* ttd         Holds CLI time to die since the beginning of the last meal     */
+/*             or the beginning of the simulation                             */
+/* tte         Holds CLI time to eat                                          */
+/* tts         Holds CLI time to sleep                                        */
+/* num_lunchs  Holds CLI optional number of times must eat.                   */
+/* my_lunchs   Holds number of lunch eaten by this philosoper                 */
+/* eating      Flag indicating the philosoper is eating now (not used)        */
 /* mynum       Holds the number of this philosopher                           */
 /* fork_l      Holds fork number to use with left hand                        */
 /* fork_r      Holds fork number to use with right hand                       */
+/* s_eat_ms    Holds last time this philosoher started to eat                 */
+/* s_eat_mtx   THis muttex prevents data races for this previous information  */
 /* ************************************************************************** */
 typedef struct s_thread
 {
@@ -58,8 +72,8 @@ typedef struct s_thread
 }	t_thread;
 /* ************************************************************************** */
 /* t_moni_set() helper funcion to test a CLI argument in the right field      */
-/* forks	   Holds a pointer to all available mutexes                       */
-/* threads_ids Holds a pointer to all available threads identificators        */
+/* forks       Holds a pointer to all available mutexes                       */
+/* threads     Holds a pointer to all available threads identificators        */
 /* num_phi     Holds CLI number of philosophers to simulate                   */
 /* ttd         Holds CLI time to die since the beginning of the last meal     */
 /*             or the beginning of the simulation                             */

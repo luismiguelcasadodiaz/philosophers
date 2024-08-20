@@ -29,5 +29,7 @@ break arg_pars.c:54 if i == 5
 #break philo.c:37
 #break philo_thread.c:86
 #break philo_thread.c:106
+break philo_creation.c:77
+break philo_thread.c:50
 # set alias
 run 4 800 200 200 5
