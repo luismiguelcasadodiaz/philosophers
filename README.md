@@ -163,7 +163,7 @@ luicasad@car1s3 ~/Documents/cursus/circle4/namada_minshell
 This parameter defines the time period, in microseconds, that is considered to be one hundred percent of the processor bandwidth. The default value is 1000000 μs, or 1 second.
 /proc/sys/kernel/sched_rt_runtime_us
 This parameter defines the time period, in microseconds, that is devoted to running real-time threads. The default value is 950000 μs, or 0.95 seconds.
-``
+```
 
 ## gdb usage to debug threds.
 It is possible to debug threads.
@@ -176,7 +176,7 @@ At this point with ```set scheduler-locking on``` I stop system scheduler.
 In this way i execute step by step each thread individually.
 
 ## write vs printf
-I started this project considering that would be faster using write() to display simple messages
+I started this project considering that would be faster using write() to display simple messages made only of two integers and short string.
 
 ```bash
 100 2 is eating
@@ -187,9 +187,10 @@ I started this project considering that would be faster using write() to display
 201 1 is eating
 301 2 is thinking
 ```
-made only of two integers and short string.
+
 
 With this in mind...
+
 ```c
 	ms = ft_itoa(make_timestamp(*a->sim_init_ms), &ms_len);
 	me = ft_itoa(a->mynum, &me_len);
@@ -210,4 +211,4 @@ I change such code por a regular printf()
 
 ft_itoa allocates memory to free. my ft_itoa is recursive...
 
-the conclusion was that on average printing 100 000 times a simple message with the write version took 515 ms while using printf version took 275 ms.
+The conclusion was that on average printing 100 000 times a simple message with the write version took 515 ms while using printf version took 275 ms.
