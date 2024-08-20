@@ -42,16 +42,16 @@ philosopher dies.</ol>
 |stdio.h|printf||
 |libc.h|malloc|Allocates memory|
 |libc.h|free|Frees the memory space pointed to by a pointer |
-|history.h|write|writes to a file descripto. It is faster than printf.|
-|readline.h|usleep|Suspends execution of the calling thread for (at least) some microseconds|
-|readline.h|gettimeofday|gives the number of seconds and microseconds since Epoch. I convert into milliseconds for this project.|
-|readline.h|pthread_create||
-|readline.h|pthread_detach||
-|readline.h|pthread_join||
-|readline.h|pthread_mutex_init||
-|readline.h|pthread_mutex_destroy||
-|readline.h|pthread_mutex_lock||
-|readline.h|pthread_mutex_unlock||
+|unistd.h|write|writes to a file descripto. It is faster than printf.|
+|unistd.h|usleep|Suspends execution of the calling thread for (at least) some microseconds|
+|sys/time.h|gettimeofday|gives the number of seconds and microseconds since Epoch. I convert into milliseconds for this project.|
+|pthread.h|pthread_create|Starts a new thread in the calling process. Then new thread starts execution invoking the start_routine|
+|pthread.h|pthread_detach|function marks the thread identified by thread as detached.  When a detached thread terminates, its resources are automatically released back to the system without the need for another thread to join with the terminated thread.|
+|pthread.h|pthread_join|function waits for the thread specified by thread to terminate.  If that thread has already terminated, then pthread_join() returns immediately.  The thread specified by thread must be joinable.|
+|pthread.h|pthread_mutex_init||
+|pthread.h|pthread_mutex_destroy||
+|pthread.h|pthread_mutex_lock||
+|pthread.h|pthread_mutex_unlock||
 
 ### Allowed functions in bonus project
 
@@ -64,21 +64,21 @@ philosopher dies.</ol>
 |dirent.h|printf||
 |dirent.h|malloc||
 |fcntl.h|free|The open() system call opens/creates the file specified by pathname in read/write mode if currente permission allow it. I used it with file1 and file2. <br> O_CLOEXEC Enable  the  close‐on‐exec  flag for the new file descriptor. It is essential in some multithreaded programs to avoid race conditions where one thread opens a file descriptor and attempts to set its close‐on‐exec flag using fcntl(2) at the same  time  as  another  thread  does  a fork(2)  plus execve(2).  Depending on the order of execution, the race may lead to the file descriptor returned by open() being unintentionally leaked to the program executed by the child process created by fork(2). |
-|history.h|write||
-|history.h|fork||
-|history.h|kill||
-|history.h|exit||
-|history.h|waitpid||
-|readline.h|usleep||
-|readline.h|gettimeofday||
-|readline.h|pthread_create||
-|readline.h|pthread_detach||
-|readline.h|pthread_join||
-|readline.h|pthread_sem_open||
-|readline.h|pthread_sem_close||
-|readline.h|pthread_sem_post||
-|readline.h|pthread_sem_wait||
-|readline.h|pthread_sem_unlink||
+|unistd.h|write||
+|unistd.h|fork||
+|signal.h|kill||
+|unistd.h|exit||
+|sys/wait.h|waitpid||
+|unistd.h|usleep||
+|sys/time.h|gettimeofday||
+|pthread.h|pthread_create||
+|pthread.h|pthread_detach||
+|pthread.h|pthread_join||
+|pthread.h|pthread_sem_open||
+|pthread.h|pthread_sem_close||
+|pthread.h|pthread_sem_post||
+|pthread.h|pthread_sem_wait||
+|pthread.h|pthread_sem_unlink||
 
 
 # Data structure
