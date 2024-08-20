@@ -168,10 +168,19 @@ This parameter defines the time period, in microseconds, that is devoted to runn
 ## gdb usage to debug threds.
 It is possible to debug threads.
 In my philosopher project all thread wait for a green light (mutex unlock) to start.
-I set  defined a breakpoint in my .gdbinit file to stop main program before unlocking the green light.
+I defined a breakpoint in my .gdbinit file to stop main program before unlocking the green light.
+
 At this point with ```set scheduler-locking on``` I stop system scheduler.
+
 ```info threads``` show me all threads.
+
+![imagen](https://github.com/user-attachments/assets/f9c11dbc-4a34-4d20-a4cf-0d49a297a9d2)
+
+
 ``` thread n``` switch me to thread n. 
+
+![imagen](https://github.com/user-attachments/assets/527bf7e6-8653-4e83-9250-84a68990f350)
+
 
 In this way i execute step by step each thread individually.
 
